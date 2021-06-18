@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav"
+    app:startDestination="@id/homeFragment3">
+    <fragment
+        android:id="@+id/homeFragment3"
+        android:name="com.app.goaheadapp.fragment.home.HomeFragment"
+        android:label="fragment_home2"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment3_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.app.goaheadapp.fragment.prouctlist.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_lookingProductDescrptionFragment"
+            app:destination="@id/lookingProductDescrptionFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_shopContentFragment"
+            app:destination="@id/shopContentFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_filtterFragment"
+            app:destination="@id/filtterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lookingProductDescrptionFragment"
+        android:name="com.app.goaheadapp.fragment.LookingProductDescrptionFragment"
+        android:label="fragment_looking_product_descrption"
+        tools:layout="@layout/fragment_looking_product_descrption" />
+    <fragment
+        android:id="@+id/shopContentFragment"
+        android:name="com.app.goaheadapp.fragment.shopcontent.ShopContentFragment"
+        android:label="fragment_shop_content"
+        tools:layout="@layout/fragment_shop_content" >
+        <action
+            android:id="@+id/action_shopContentFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_shopContentFragment_to_rateProductFragment"
+            app:destination="@id/rateProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.app.goaheadapp.fragment.cart.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_orderDeiailsFragment"
+            app:destination="@id/orderDeiailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDeiailsFragment"
+        android:name="com.app.goaheadapp.fragment.deliverydetails.OrderDeiailsFragment"
+        android:label="fragment_order_deiails"
+        tools:layout="@layout/fragment_order_deiails" >
+        <action
+            android:id="@+id/action_orderDeiailsFragment_to_chooseDriverFragment"
+            app:destination="@id/chooseDriverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseDriverFragment"
+        android:name="com.app.goaheadapp.fragment.ChooseDriverFragment"
+        android:label="fragment_choose_driver"
+        tools:layout="@layout/fragment_choose_driver" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.app.goaheadapp.fragment.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.app.goaheadapp.fragment.editprofile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+
+    </fragment>
+    <activity
+        android:id="@+id/savedAddress"
+        android:name="com.app.goaheadapp.activitys.savedaddresses.SavedAddress"
+        android:label="fragment_saved_address"
+        tools:layout="@layout/fragment_saved_address" />
+    <fragment
+        android:id="@+id/notes"
+        android:name="com.app.goaheadapp.fragment.Favorite.ListMainFragment"
+        android:label="fragment_list_main"
+        tools:layout="@layout/fragment_list_main" >
+        <action
+            android:id="@+id/action_notes_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notification"
+        android:name="com.app.goaheadapp.fragment.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/paymentMethod"
+        android:name="com.app.goaheadapp.fragment.addpaymentmethod.PaymentMethodFragment"
+        android:label="fragment_payment_method"
+        tools:layout="@layout/fragment_payment_method" />
+    <fragment
+        android:id="@+id/about"
+        android:name="com.app.goaheadapp.fragment.setting.AboutUsFragment"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/call"
+        android:name="com.app.goaheadapp.fragment.setting.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
+    <fragment
+        android:id="@+id/privacy"
+        android:name="com.app.goaheadapp.fragment.privacy.PrivacyFragment"
+        android:label="fragment_privacy"
+        tools:layout="@layout/fragment_privacy" />
+    <fragment
+        android:id="@+id/share"
+        android:name="com.app.goaheadapp.fragment.setting.ShareAppFragment"
+        android:label="fragment_share_app"
+        tools:layout="@layout/fragment_share_app" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.app.goaheadapp.fragment.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/rateProductFragment"
+        android:name="com.app.goaheadapp.fragment.rateproduct.RateProductFragment"
+        android:label="fragment_rate_product"
+        tools:layout="@layout/fragment_rate_product" />
+    <fragment
+        android:id="@+id/filtterFragment"
+        android:name="com.app.goaheadapp.fragment.prouctlist.FiltterFragment"
+        android:label="fragment_filtter"
+        tools:layout="@layout/fragment_filtter" />
+</navigation>

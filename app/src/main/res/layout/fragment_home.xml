@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="Transfer"
+            type="com.app.goaheadapp.HomeViewModel" />
+
+        <variable
+            name="models"
+            type="com.app.goaheadapp.fragment.home.HomeFViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layoutDirection="ltr"
+        tools:context=".fragment.home.HomeFragment">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pagebackground" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/look"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shap_tab_select"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/look"
+                android:textColor="@android:color/white"
+
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/shopping"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shap_tab_defult"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/shopping"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"/>
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="8dp">-->
+
+<!--            <com.example.goaheadapp.ToggleButtonGroupTableLayout-->
+<!--                android:id="@+id/look_grid"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:columnCount="3"-->
+<!--                android:visibility="visible">-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(1)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/device"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(1)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_devices_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/super_market"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/device"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(2)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/online_shop"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(2)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_shopping_cart_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/online_shopping"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(3)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/travel"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(3)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_airplanemode_inactive_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+
+<!--                            android:text="@string/travel_and_tourism"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </TableRow>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(4)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/public_service"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(4)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_help_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/public_services"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(5)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/learn"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(5)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_library_books_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/learn_courses"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(6)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/sport"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(6)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_directions_run_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/sport_and_news"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </TableRow>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(7)}"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/banks"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(7)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_group_6365" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/bonoc"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:onClick="@{()->Transfer.goToFragmentDetails(8)}"-->
+<!--                        android:orientation="vertical">-->
+
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/government_departments"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(8)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_account_balance_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/learn_courses"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </TableRow>-->
+
+
+<!--            </com.example.goaheadapp.ToggleButtonGroupTableLayout>-->
+
+<!--            <com.example.goaheadapp.ToggleButtonGroupTableLayout-->
+<!--                android:id="@+id/shop_grid"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:visibility="gone">-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(9)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_shopping_basket_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/market"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/super_market"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/resturant"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(10)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_restaurant_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/resturant"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+<!--                </TableRow>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/coffe"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(11)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_cake_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/coffee_and_cake"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/phamacy"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(12)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_local_pharmacy_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/pharmacy"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </TableRow>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="8dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:id="@+id/other"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:background="@drawable/shape_imagebutton"-->
+<!--                            android:onClick="@{()->Transfer.goToFragmentDetails(13)}"-->
+<!--                            android:padding="26dp"-->
+<!--                            android:src="@drawable/ic_store_mall_directory_24px" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:text="@string/other"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </TableRow>-->
+
+<!--            </com.example.goaheadapp.ToggleButtonGroupTableLayout>-->
+<!--        </FrameLayout>-->
+
+
+    </LinearLayout>
+</layout>

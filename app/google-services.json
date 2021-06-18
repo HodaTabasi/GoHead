@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "102340041894",
+    "firebase_url": "https://goaheadapp-5d0e9.firebaseio.com",
+    "project_id": "goaheadapp-5d0e9",
+    "storage_bucket": "goaheadapp-5d0e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102340041894:android:399b81cb15dc27c5e9a867",
+        "android_client_info": {
+          "package_name": "com.app.goaheadapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102340041894-06ihvd6in5kclpaf7je6otb8pvq1ncbn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHD4S_-z7xtXJuSPo2XICp4gr-2e24WYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102340041894-06ihvd6in5kclpaf7je6otb8pvq1ncbn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "102340041894-itcsbndakrp3l50qi2ajbggoj5hnkfdv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apps.GoAhead"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102340041894:android:59a00f462db635b8e9a867",
+        "android_client_info": {
+          "package_name": "com.gsoft.goahead"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102340041894-06ihvd6in5kclpaf7je6otb8pvq1ncbn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHD4S_-z7xtXJuSPo2XICp4gr-2e24WYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102340041894-06ihvd6in5kclpaf7je6otb8pvq1ncbn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "102340041894-itcsbndakrp3l50qi2ajbggoj5hnkfdv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apps.GoAhead"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
