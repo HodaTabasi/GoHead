@@ -12,6 +12,7 @@ import com.app.goaheadapp.models.DeliveryCostResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
 import com.app.goaheadapp.models.NoteListResponse;
+import com.app.goaheadapp.models.NotificationResponse;
 import com.app.goaheadapp.models.OrderResponse;
 import com.app.goaheadapp.models.PaymentMethodResponse;
 import com.app.goaheadapp.models.PrivacyResponse;
@@ -175,14 +176,14 @@ public interface ApiInterface {
     })
     @FormUrlEncoded
     @POST("rateDriver")
-    public Call<DeleteCartResponse> rateDriver(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage, @Field("product_id") String id, @Field("value") String value, @Field("text") String text);
+    public Call<DeleteCartResponse> rateDriver(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage, @Field("driver_id") String id, @Field("value") String value, @Field("text") String text);
 
     @Headers({
             "Accept: application/json"
     })
     @FormUrlEncoded
     @POST("rateStore")
-    public Call<DeleteCartResponse> rateStore(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage, @Field("product_id") String id, @Field("value") String value, @Field("text") String text);
+    public Call<DeleteCartResponse> rateStore(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage, @Field("store_id") String id, @Field("value") String value, @Field("text") String text);
 
     @Headers({
             "Accept: application/json"
@@ -290,6 +291,13 @@ public interface ApiInterface {
     })
     @GET("ratesDriver")
     public Call<RateResponse> getDriverRate(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
+
+    @Headers({
+            "Accept: application/json"
+    })
+    @GET("myNotifications")
+    public Call<NotificationResponse> getNotification(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
+
 
 //    @FormUrlEncoded
 //    @POST("api?action=update&model=workers")

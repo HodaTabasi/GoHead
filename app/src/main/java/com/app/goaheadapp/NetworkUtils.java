@@ -14,6 +14,7 @@ import com.app.goaheadapp.models.DeliveryCostResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
 import com.app.goaheadapp.models.NoteListResponse;
+import com.app.goaheadapp.models.NotificationResponse;
 import com.app.goaheadapp.models.OrderResponse;
 import com.app.goaheadapp.models.PaymentMethodResponse;
 import com.app.goaheadapp.models.PrivacyResponse;
@@ -227,6 +228,10 @@ public class NetworkUtils {
 
     public Call<RateResponse> getRateDriver(String token, String lang){
         return apiInterface.getDriverRate(token,lang);
+    }
+
+    public Call<NotificationResponse> getNotification(String token, String lang){
+        return apiInterface.getNotification(token,lang);
     }
 
 //    public Call<GetResponse> getProduct(String token){

@@ -140,7 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layoutDirection="ltr"
+                    android:layoutDirection="rtl"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -164,11 +164,11 @@
                         android:layout_weight="1"
                         android:background="@drawable/shap_tab_defult_call"
                         android:gravity="center"
-                        android:onClick="@{()->Transfer.Rate()}"
+                        android:onClick="@{()->Transfer.Rate(1,order)}"
                         android:padding="10dp"
                         android:text="@string/rate"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -277,11 +277,11 @@
                     android:layout_weight="1"
                     android:background="@drawable/shap_tab_defult_call"
                     android:gravity="center"
-                    android:onClick="@{()->Transfer.Rate()}"
+                    android:onClick="@{()->Transfer.Rate(2,order)}"
                     android:padding="10dp"
                     android:text="@string/rate"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

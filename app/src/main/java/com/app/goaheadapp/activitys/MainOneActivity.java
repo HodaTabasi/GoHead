@@ -26,7 +26,7 @@ import com.app.goaheadapp.fragment.setting.AboutUsFragment;
 import com.app.goaheadapp.fragment.setting.ContactUsFragment;
 import com.app.goaheadapp.fragment.deliverydetails.OrderDeiailsFragment;
 import com.app.goaheadapp.fragment.favorites.ListMainFragment;
-import com.app.goaheadapp.fragment.NotificationFragment;
+import com.app.goaheadapp.fragment.notifacation.NotificationFragment;
 import com.app.goaheadapp.fragment.ordertraking.OrderTrackingFragment;
 import com.app.goaheadapp.fragment.addpaymentmethod.PaymentMethodFragment;
 import com.app.goaheadapp.fragment.privacy.PrivacyFragment;

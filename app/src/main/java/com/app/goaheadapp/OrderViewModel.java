@@ -9,13 +9,25 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.app.goaheadapp.Utils.MyProgressDialog;
 import com.app.goaheadapp.activitys.savedaddresses.SavedAddress;
 import com.app.goaheadapp.interfaces.GetUserData;
+import com.app.goaheadapp.models.DeleteCartResponse;
+import com.app.goaheadapp.models.Order;
+import com.app.goaheadapp.models.User;
+
+import java.util.Locale;
+
+import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class OrderViewModel {
@@ -139,14 +151,18 @@ public class OrderViewModel {
         window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
-    public void Rate() {
+    public void Rate(int id, Order order) {
         final Dialog dialog = new Dialog(context, R.style.mydialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_rate);
 
+        User user = Paper.book().read("data");
+        String token = "Bearer " + user.getAccess_token();
+        String currentLang = Locale.getDefault().getLanguage();
+
         AppCompatEditText note = dialog.findViewById(R.id.note);
-        RatingBar rate = dialog.findViewById(R.id.ratingBar);
+        RatingBar rate = dialog.findViewById(R.id.ratingBarr);
 
         AppCompatButton close = dialog.findViewById(R.id.cancel);
         AppCompatButton ok = dialog.findViewById(R.id.send);
@@ -163,6 +179,40 @@ public class OrderViewModel {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                MyProgressDialog.showDialog(context);
+                if (id == 1){
+                    NetworkUtils.getInstance()
+                            .rateStore(token,currentLang,String.valueOf(order.getStore().getId()),String.valueOf(rate.getNumStars()),note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                        @Override
+                        public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
+                            DeleteCartResponse deleteCartResponse = response.body();
+                            MyProgressDialog.dismissDialog();
+                            Toast.makeText(context, ""+deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
+                            MyProgressDialog.dismissDialog();
+                        }
+                    });
+                }else if (id == 2){
+                    NetworkUtils.getInstance()
+                            .rateDriver(token,currentLang,String.valueOf(order.getDriver().getId()),String.valueOf(rate.getNumStars()),note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                        @Override
+                        public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
+                            DeleteCartResponse deleteCartResponse = response.body();
+                            MyProgressDialog.dismissDialog();
+                            Toast.makeText(context, ""+deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
+                            MyProgressDialog.dismissDialog();
+                        }
+                    });
+                }
             }
         });
 

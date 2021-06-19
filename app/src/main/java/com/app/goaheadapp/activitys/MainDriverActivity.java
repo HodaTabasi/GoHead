@@ -26,7 +26,7 @@ import com.app.goaheadapp.fragment.setting.AboutUsFragment;
 import com.app.goaheadapp.fragment.setting.ContactUsFragment;
 import com.app.goaheadapp.fragment.profile.DriverProfileFragment;
 import com.app.goaheadapp.fragment.ratedriver.ListDriverRateFragment;
-import com.app.goaheadapp.fragment.NotificationFragment;
+import com.app.goaheadapp.fragment.notifacation.NotificationFragment;
 import com.app.goaheadapp.fragment.drivertrak.OrderDriverTrakingFragment;
 import com.app.goaheadapp.fragment.privacy.PrivacyFragment;
 import com.app.goaheadapp.fragment.setting.ShareAppFragment;

@@ -1,4 +1,4 @@
-package com.app.goaheadapp.fragment.notelist;
+package com.app.goaheadapp.fragment.notifacation;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.app.goaheadapp.NetworkUtils;
 import com.app.goaheadapp.Utils.MyProgressDialog;
 import com.app.goaheadapp.models.NoteListResponse;
+import com.app.goaheadapp.models.NotificationResponse;
 import com.app.goaheadapp.models.User;
 
 import java.util.Locale;
@@ -17,24 +18,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NoteListViewModel extends ViewModel {
-    MutableLiveData<NoteListResponse> postsMutableLiveData = new MutableLiveData<>();
+public class NotificationViewModel extends ViewModel {
+    MutableLiveData<NotificationResponse> postsMutableLiveData = new MutableLiveData<>();
 
-    public void getNoteList(Context homeFragment){
+    public void getNotification(Context homeFragment) {
         MyProgressDialog.showDialog(homeFragment);
         User user = Paper.book().read("data");
         String token = "Bearer " + user.getAccess_token();
         String currentLang = Locale.getDefault().getLanguage();
 
-        NetworkUtils.getInstance().getNoteList(token,currentLang).enqueue(new Callback<NoteListResponse>() {
+        NetworkUtils.getInstance().getNotification(token, currentLang).enqueue(new Callback<NotificationResponse>() {
             @Override
-            public void onResponse(Call<NoteListResponse> call, Response<NoteListResponse> response) {
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
                 postsMutableLiveData.postValue(response.body());
                 MyProgressDialog.dismissDialog();
             }
 
             @Override
-            public void onFailure(Call<NoteListResponse> call, Throwable t) {
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
 
             }
         });
