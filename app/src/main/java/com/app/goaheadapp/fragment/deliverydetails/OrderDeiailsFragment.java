@@ -28,8 +28,10 @@ import android.widget.Toast;
 import com.app.goaheadapp.OrderViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.SplashViewModel;
+import com.app.goaheadapp.Utils.FragmentsUtil;
 import com.app.goaheadapp.databinding.FragmentOrderDeiailsBinding;
 import com.app.goaheadapp.databinding.StubCardPaymentOptionsBinding;
+import com.app.goaheadapp.fragment.choosesdriver.ChooseDriverFragment;
 import com.app.goaheadapp.interfaces.GetUserData;
 import com.app.goaheadapp.models.User;
 import com.app.goaheadapp.models.getPaymentRresponse;
@@ -101,22 +103,26 @@ public class OrderDeiailsFragment extends Fragment implements GetUserData {
         binding.two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.two.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.c_blue_shape));
-                binding.two.setTextColor(Color.WHITE);
-                if (flag) {
-                    binding.layoutStub3.setOnInflateListener(new ViewStub.OnInflateListener() {
-                        @Override
-                        public void onInflate(ViewStub stub, View inflated) {
-                            bindingPayment = DataBindingUtil.bind(inflated);
-                        }
-                    });
-//                    my_View = binding.layoutStub3.getViewStub().inflate();
-                    layTwo();
-                } else {
-                    my_View = binding.layoutStub2.getViewStub().inflate();
-                    layOne(my_View);
-                }
 
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.chooseDriverFragment);
+
+//                FragmentsUtil.replaceFragment(getActivity(),R.id.my_container,new ChooseDriverFragment());
+//                binding.two.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.c_blue_shape));
+//                binding.two.setTextColor(Color.WHITE);
+//                if (flag) {
+//                    binding.layoutStub3.setOnInflateListener(new ViewStub.OnInflateListener() {
+//                        @Override
+//                        public void onInflate(ViewStub stub, View inflated) {
+//                            bindingPayment = DataBindingUtil.bind(inflated);
+//                        }
+//                    });
+////                    my_View = binding.layoutStub3.getViewStub().inflate();
+//                    layTwo();
+//                } else {
+//                    my_View = binding.layoutStub2.getViewStub().inflate();
+//                    layOne(my_View);
+//                }
             }
         });
 

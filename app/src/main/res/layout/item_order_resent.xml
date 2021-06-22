@@ -245,10 +245,11 @@
                     android:layout_weight="1"
                     android:background="@drawable/shap_tab_defult_call"
                     android:gravity="center"
-                    android:onClick="@{()->transfer.toDriverNote()}"
                     android:padding="8dp"
                     android:src="@drawable/ic_file"
                     android:tint="@android:color/white" />
+
+<!--                android:onClick="@{()->transfer.toDriverNote()}"-->
 
             </LinearLayout>
 

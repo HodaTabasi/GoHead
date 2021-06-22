@@ -9,6 +9,7 @@ import com.app.goaheadapp.models.CatResponse;
 import com.app.goaheadapp.models.ChatDetailsResponse;
 import com.app.goaheadapp.models.DeleteCartResponse;
 import com.app.goaheadapp.models.DeliveryCostResponse;
+import com.app.goaheadapp.models.DrivierResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
 import com.app.goaheadapp.models.NoteListResponse;
@@ -282,6 +283,14 @@ public interface ApiInterface {
     @Headers({
             "Accept: application/json"
     })
+    @FormUrlEncoded
+    @POST("sendMassegeForeDriver")
+    Call<AddSuccessfullyResponse> sendMessageToDriver(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage ,@Field("order_id") String order_id,@Field("driver_id") String driver_id,@Field("message") String message);
+
+
+    @Headers({
+            "Accept: application/json"
+    })
     @Multipart
     @POST("updateImageDeliver")
     Call<UpdateImageResponse> uploadImage(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage , @Part MultipartBody.Part body);
@@ -297,6 +306,13 @@ public interface ApiInterface {
     })
     @GET("myNotifications")
     public Call<NotificationResponse> getNotification(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
+
+
+    @Headers({
+            "Accept: application/json"
+    })
+    @GET("getDrivers")
+    public Call<DrivierResponse> getDrivers(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
 
 
 //    @FormUrlEncoded

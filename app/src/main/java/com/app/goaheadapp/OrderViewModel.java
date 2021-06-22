@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -18,12 +19,15 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.app.goaheadapp.Utils.MyProgressDialog;
 import com.app.goaheadapp.activitys.savedaddresses.SavedAddress;
 import com.app.goaheadapp.interfaces.GetUserData;
+import com.app.goaheadapp.models.AddSuccessfullyResponse;
 import com.app.goaheadapp.models.DeleteCartResponse;
 import com.app.goaheadapp.models.Order;
 import com.app.goaheadapp.models.User;
+import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,11 +38,12 @@ public class OrderViewModel {
     Context context;
     GetUserData getUserData;
 
+
     public OrderViewModel(Context context) {
         this.context = context;
     }
 
-    public OrderViewModel(Context context,GetUserData getUserData) {
+    public OrderViewModel(Context context, GetUserData getUserData) {
         this.context = context;
         this.getUserData = getUserData;
     }
@@ -83,11 +88,20 @@ public class OrderViewModel {
         context.startActivity(intent);
     }
 
-    public void toDriverNote() {
+    public void toDriverNote(User driver) {
         final Dialog dialog = new Dialog(context, R.style.mydialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_send_note);
+
+        CircleImageView driverImage;
+        AppCompatTextView driverName;
+        RatingBar ratingBar;
+        AppCompatTextView productPlace;
+
+        User user = Paper.book().read("data");
+        String token = "Bearer " + user.getAccess_token();
+        String currentLang = Locale.getDefault().getLanguage();
 
         AppCompatEditText note = dialog.findViewById(R.id.note);
         AppCompatTextView call = dialog.findViewById(R.id.call);
@@ -95,6 +109,29 @@ public class OrderViewModel {
         AppCompatButton close = dialog.findViewById(R.id.cancel);
         AppCompatButton ok = dialog.findViewById(R.id.send);
 
+        driverImage = (CircleImageView) dialog.findViewById(R.id.driver_image);
+        Glide.with(driverImage)
+                .load(driver.getProfile_image())
+                .centerCrop()
+                .placeholder(R.drawable.c_blue_shape)
+                .into(driverImage);
+        driverName = (AppCompatTextView) dialog.findViewById(R.id.driver_name);
+        driverName.setText(driver.getName());
+        ratingBar = (RatingBar) dialog.findViewById(R.id.ratingBar);
+        ratingBar.setRating(Float.valueOf(driver.getRate()));
+        productPlace = (AppCompatTextView) dialog.findViewById(R.id.product_place);
+        productPlace.setText(driver.getMobile());
+
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+
+                intent.setData(Uri.parse("tel:" + driver.getMobile()));
+                context.startActivity(intent);
+            }
+        });
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +143,22 @@ public class OrderViewModel {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                MyProgressDialog.showDialog(context);
+                NetworkUtils.getInstance()
+                        .sendMessageToDriver(token, currentLang, String.valueOf(""), String.valueOf(driver.getId()), note.getText().toString()).enqueue(new Callback<AddSuccessfullyResponse>() {
+                    @Override
+                    public void onResponse(Call<AddSuccessfullyResponse> call, Response<AddSuccessfullyResponse> response) {
+                        AddSuccessfullyResponse addSuccessfullyResponse = response.body();
+                        Toast.makeText(context, "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        MyProgressDialog.dismissDialog();
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
+                        Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        MyProgressDialog.dismissDialog();
+                    }
+                });
             }
         });
 
@@ -115,7 +167,7 @@ public class OrderViewModel {
         window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
-    public void editUser(String s,String s1) {
+    public void editUser(String s, String s1) {
         final Dialog dialog = new Dialog(context, R.style.mydialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -141,7 +193,7 @@ public class OrderViewModel {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getUserData.getData(userName.getText().toString(),phone.getText().toString());
+                getUserData.getData(userName.getText().toString(), phone.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -180,14 +232,14 @@ public class OrderViewModel {
             public void onClick(View view) {
                 dialog.dismiss();
                 MyProgressDialog.showDialog(context);
-                if (id == 1){
+                if (id == 1) {
                     NetworkUtils.getInstance()
-                            .rateStore(token,currentLang,String.valueOf(order.getStore().getId()),String.valueOf(rate.getNumStars()),note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                            .rateStore(token, currentLang, String.valueOf(order.getStore().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
                         @Override
                         public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
                             DeleteCartResponse deleteCartResponse = response.body();
                             MyProgressDialog.dismissDialog();
-                            Toast.makeText(context, ""+deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -196,14 +248,14 @@ public class OrderViewModel {
                             MyProgressDialog.dismissDialog();
                         }
                     });
-                }else if (id == 2){
+                } else if (id == 2) {
                     NetworkUtils.getInstance()
-                            .rateDriver(token,currentLang,String.valueOf(order.getDriver().getId()),String.valueOf(rate.getNumStars()),note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                            .rateDriver(token, currentLang, String.valueOf(order.getDriver().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
                         @Override
                         public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
                             DeleteCartResponse deleteCartResponse = response.body();
                             MyProgressDialog.dismissDialog();
-                            Toast.makeText(context, ""+deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
 

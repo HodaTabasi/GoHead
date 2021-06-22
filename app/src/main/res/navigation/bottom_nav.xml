@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseDriverFragment"
-        android:name="com.app.goaheadapp.fragment.ChooseDriverFragment"
+        android:name="com.app.goaheadapp.fragment.choosesdriver.ChooseDriverFragment"
         android:label="fragment_choose_driver"
         tools:layout="@layout/fragment_choose_driver" />
     <fragment

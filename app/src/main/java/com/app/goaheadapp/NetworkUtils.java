@@ -11,6 +11,7 @@ import com.app.goaheadapp.models.CatResponse;
 import com.app.goaheadapp.models.ChatDetailsResponse;
 import com.app.goaheadapp.models.DeleteCartResponse;
 import com.app.goaheadapp.models.DeliveryCostResponse;
+import com.app.goaheadapp.models.DrivierResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
 import com.app.goaheadapp.models.NoteListResponse;
@@ -222,6 +223,10 @@ public class NetworkUtils {
         return apiInterface.sendMessage(token,lang,orderId,userId,message);
     }
 
+    public Call<AddSuccessfullyResponse> sendMessageToDriver(String token, String lang, String orderId,String driver_id,String message){
+        return apiInterface.sendMessageToDriver(token,lang,orderId,driver_id,message);
+    }
+
     public Call<UpdateImageResponse> uploadImage(String token, String lang, MultipartBody.Part body){
         return apiInterface.uploadImage(token,lang,body);
     }
@@ -232,6 +237,10 @@ public class NetworkUtils {
 
     public Call<NotificationResponse> getNotification(String token, String lang){
         return apiInterface.getNotification(token,lang);
+    }
+
+    public Call<DrivierResponse> getDrivers(String token, String lang){
+        return apiInterface.getDrivers(token,lang);
     }
 
 //    public Call<GetResponse> getProduct(String token){

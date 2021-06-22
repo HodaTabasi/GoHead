@@ -43,12 +43,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notifications.size();
     }
 
-    public void addMore(List<Notification> notifications){
+    public void addMore(List<Notification> notifications) {
         this.notifications.addAll(notifications);
         notifyDataSetChanged();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder{
+    class UserViewHolder extends RecyclerView.ViewHolder {
         ItemUserNotificationBinding binding;
 
         public UserViewHolder(ItemUserNotificationBinding binding) {
@@ -60,6 +60,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             binding.setItem(item);
             binding.executePendingBindings();
             binding.add.setVisibility(View.INVISIBLE);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (item.getType() == 0) {
+
+                    } else if (item.getType() == 1) {
+
+                    }
+                }
+            });
         }
     }
 
