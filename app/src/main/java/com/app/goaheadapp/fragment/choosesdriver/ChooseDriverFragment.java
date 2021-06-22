@@ -1,9 +1,12 @@
 package com.app.goaheadapp.fragment.choosesdriver;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -24,13 +27,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.app.goaheadapp.OrderViewModel;
 import com.app.goaheadapp.R;
+import com.app.goaheadapp.Utils.MyProgressDialog;
 import com.app.goaheadapp.databinding.FragmentChooseDriverBinding;
 import com.app.goaheadapp.fragment.chat.ChatViewModel;
 import com.app.goaheadapp.fragment.drivertrak.DriverViewModel;
+import com.app.goaheadapp.models.AddSuccessfullyResponse;
 import com.app.goaheadapp.models.DrivierResponse;
 import com.app.goaheadapp.models.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -61,6 +68,8 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
     GoogleMap googleMapBusey, googleMapOff, googleMapOn, map;
     LocationManager locationManager;
     Map<Marker, User> theMap;
+    String orderId = "";
+    String driverId;
 
 
     SupportMapFragment mapFragment;
@@ -108,6 +117,40 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         binding.setTransfer(new OrderViewModel(getContext()));
+
+        binding.request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.sendOrderToDriver(getContext(), orderId, driverId);
+                viewModel.postsMutableLiveData1.observe(getViewLifecycleOwner(), new Observer<AddSuccessfullyResponse>() {
+                    @Override
+                    public void onChanged(AddSuccessfullyResponse addSuccessfullyResponse) {
+                        if (addSuccessfullyResponse.isStatus()) {
+                            doneDialog();
+                        } else
+                            Toast.makeText(getContext(), "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    public void doneDialog() {
+        final Dialog dialog = new Dialog(getContext(), R.style.mydialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.dialog_ok);
+
+
+        AppCompatTextView message = dialog.findViewById(R.id.message);
+
+        message.setText(getActivity().getResources().getString(R.string.ask_driver_done));
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
     private void setDriver(List<User> drivers) {
@@ -129,7 +172,7 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
 
             }
         }
-        if (drivers.size() != 0){
+        if (drivers.size() != 0) {
             LatLng latLng = new LatLng(drivers.get(0).getLat(), drivers.get(0).getLan());
             moveCamera(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM);
         }
@@ -179,6 +222,7 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
             @Override
             public View getInfoWindow(Marker marker) {
                 User yourCustomObjectInstance = theMap.get(marker);
+                driverId = String.valueOf(yourCustomObjectInstance.getId());
                 binding.profile.setVisibility(View.VISIBLE);
                 binding.setUser(yourCustomObjectInstance);
 //                Log.e("fffffffffff",yourCustomObjectInstance.getId()+" dd");
@@ -198,7 +242,7 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
         map = googleMap;
-        Toast.makeText(getContext(), "ddddddddddddddd "+ drivers.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "ddddddddddddddd " + drivers.size(), Toast.LENGTH_SHORT).show();
         map.setOnMarkerClickListener(this);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 

@@ -287,6 +287,13 @@ public interface ApiInterface {
     @POST("sendMassegeForeDriver")
     Call<AddSuccessfullyResponse> sendMessageToDriver(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage ,@Field("order_id") String order_id,@Field("driver_id") String driver_id,@Field("message") String message);
 
+ @Headers({
+            "Accept: application/json"
+    })
+    @FormUrlEncoded
+    @POST("sendOrderForeDriver")
+    Call<AddSuccessfullyResponse> sendOrderForDriver(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage ,@Field("order_id") String order_id,@Field("driver_id") String driver_id);
+
 
     @Headers({
             "Accept: application/json"

@@ -227,6 +227,10 @@ public class NetworkUtils {
         return apiInterface.sendMessageToDriver(token,lang,orderId,driver_id,message);
     }
 
+    public Call<AddSuccessfullyResponse> sendOrderForDriver(String token, String lang, String orderId,String driver_id){
+        return apiInterface.sendOrderForDriver(token,lang,orderId,driver_id);
+    }
+
     public Call<UpdateImageResponse> uploadImage(String token, String lang, MultipartBody.Part body){
         return apiInterface.uploadImage(token,lang,body);
     }
