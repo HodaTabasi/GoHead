@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="order"
             type="com.app.goaheadapp.models.Order" />
@@ -42,7 +43,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
+                android:gravity="start"
                 android:text="@{order.store_name}"
+                android:textAlignment="viewStart"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/product_image"
@@ -56,7 +59,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
+                android:gravity="start"
                 android:text="@{order.store_open}"
+                android:textAlignment="viewStart"
                 android:textColor="@color/divider"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/product_image"
@@ -70,7 +75,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
+                android:gravity="start"
                 android:text="@{order.location}"
+                android:textAlignment="viewStart"
                 android:textColor="@color/divider"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/product_image"
@@ -84,7 +91,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="4dp"
+                android:gravity="start"
                 android:text="@{order.total_cost}"
+                android:textAlignment="viewStart"
                 android:textColor="#E43F5A"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -98,7 +107,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="44dp"
+                android:gravity="start"
                 android:text="v.s"
+                android:textAlignment="viewStart"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -113,7 +124,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
+                android:gravity="start"
                 android:text="@{order.location}"
+                android:textAlignment="viewStart"
                 android:textColor="@color/divider"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/product_image"
@@ -134,31 +147,35 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/driver_name"
-                android:layout_width="171dp"
-                android:layout_height="21dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
+                android:gravity="start"
                 android:text="@{order.customer_name}"
+                android:textAlignment="viewStart"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/driver_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/driver_number"
-                android:layout_width="157dp"
-                android:layout_height="29dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_marginTop="40dp"
                 android:drawableStart="@drawable/ic_phone"
                 android:drawableLeft="@drawable/ic_phone"
                 android:drawablePadding="8dp"
+                android:gravity="start"
                 android:text="@{order.customer_mobile}"
+                android:textAlignment="viewStart"
                 android:textColor="@color/divider"
                 android:textSize="12sp"
                 app:drawableTint="@color/colorAccent"
-                app:layout_constraintStart_toEndOf="@+id/driver_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/driver_name" />
 
 
@@ -167,11 +184,11 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="66dp"
-                android:orientation="horizontal"
                 android:background="@drawable/btn_shap1"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView

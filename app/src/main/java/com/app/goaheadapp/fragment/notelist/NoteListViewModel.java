@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.app.goaheadapp.NetworkUtils;
 import com.app.goaheadapp.Utils.MyProgressDialog;
+import com.app.goaheadapp.Utils.SingleLiveEvent;
 import com.app.goaheadapp.models.NoteListResponse;
 import com.app.goaheadapp.models.User;
 
@@ -18,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NoteListViewModel extends ViewModel {
-    MutableLiveData<NoteListResponse> postsMutableLiveData = new MutableLiveData<>();
+    SingleLiveEvent<NoteListResponse> postsMutableLiveData = new SingleLiveEvent<>();
 
     public void getNoteList(Context homeFragment){
         MyProgressDialog.showDialog(homeFragment);

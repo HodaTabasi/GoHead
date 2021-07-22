@@ -64,7 +64,7 @@
                 android:drawableLeft="@drawable/ic_email"
                 android:drawablePadding="8dp"
                 android:hint="@string/enter_your_email"
-                android:text="osama_et@hotmail.com"
+                android:text="driverOsa@hotmail.com"
                 android:inputType="textEmailAddress"
                 android:padding="8dp" />
 

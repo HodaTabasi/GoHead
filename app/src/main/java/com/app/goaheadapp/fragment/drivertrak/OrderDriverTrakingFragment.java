@@ -35,11 +35,14 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.Utils.FragmentsUtil;
 import com.app.goaheadapp.Utils.Permissions;
 import com.app.goaheadapp.adapters.OrderTrakingStoreAdapter;
 import com.app.goaheadapp.databinding.FragmentOrderDriverTrakingBinding;
+import com.app.goaheadapp.dialog.DeliveryFeeCost;
+import com.app.goaheadapp.dialog.ProductDetails;
 import com.app.goaheadapp.fragment.ratedriver.ListDriverRateFragment;
 import com.app.goaheadapp.interfaces.GetOrderDetails;
 import com.app.goaheadapp.models.AddSuccessfullyResponse;
@@ -60,6 +63,8 @@ import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.model.DirectionsResult;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +89,7 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
 
     OrderTrakingStoreAdapter adapter;
     List<Order> orders;
-    String id = "1";
+    String id = "0";
     Permissions permissions;
     private Order order;
 
@@ -120,15 +125,24 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
         if (!permissions.isCallPhoneOk(getContext()))
             permissions.requestCallPhone(getActivity());
 
-        getData(id);
+//        getData(id);
+        LoadData();
 
         viewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<OrderResponse>() {
             @Override
             public void onChanged(OrderResponse orderResponse) {
                 adapter.addMore(orderResponse.getItems());
-                if (!orderResponse.getItems().isEmpty())
+                if (!orderResponse.getItems().isEmpty()) {
+                    binding.cons.setVisibility(View.VISIBLE);
+                    binding.resc.setVisibility(View.VISIBLE);
                     putData(orderResponse.getItems().get(0));
+                } else {
+                    binding.cons.setVisibility(View.GONE);
+                    binding.resc.setVisibility(View.GONE);
+                    binding.received.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -156,10 +170,10 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
 
                 binding.itemResentDriverOrder.layoutResent.setVisibility(View.VISIBLE);
                 binding.itemOrderDriverOld.layoutOld.setVisibility(View.GONE);
-                binding.received.setVisibility(View.VISIBLE);
                 adapter.clear();
-                id = "1";
-                getData(id);
+                id = "0";
+                LoadData();
+                //getData(id);
 
 
             }
@@ -177,10 +191,10 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
 
                 binding.itemResentDriverOrder.layoutResent.setVisibility(View.GONE);
                 binding.itemOrderDriverOld.layoutOld.setVisibility(View.VISIBLE);
-                binding.received.setVisibility(View.GONE);
                 adapter.clear();
-                id = "0";
-                getData(id);
+                id = "1";
+                LoadData();
+                //getData(id);
             }
         });
 
@@ -194,7 +208,7 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
         binding.itemOrderDriverOld.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentsUtil.replaceFragment(getActivity(), R.id.my_container, new ListDriverRateFragment(),true);
+                FragmentsUtil.replaceFragment(getActivity(), R.id.my_container, new ListDriverRateFragment(), true);
             }
         });
 
@@ -250,6 +264,20 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
 //                FragmentsUtil.replaceFragment(getActivity(), R.id.my_container, fragment,true);
             }
         });
+
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadData();
+            }
+        });
+
+        binding.received.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "done", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void call() {
@@ -259,16 +287,43 @@ public class OrderDriverTrakingFragment extends Fragment implements OnMapReadyCa
         startActivity(intent);
     }
 
+    public void LoadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData(id);
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void putData(Order order) {
-        if (id.equals("1")) {
+        if (id.equals("0")) {
+            binding.received.setVisibility(View.VISIBLE);
             binding.itemResentDriverOrder.setOrder(order);
         } else {
+            binding.received.setVisibility(View.GONE);
             binding.itemOrderDriverOld.setOrder(order);
         }
         marker = map.addMarker(new MarkerOptions()
                 .position(new LatLng(order.getDriver().getLat(), order.getDriver().getLan()))
                 .title("تفاصيل الطلب")
                 .draggable(true));
+
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+
+                ProductDetails customDialog = new ProductDetails(getContext(), R.style.mydialog, order);
+                customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                customDialog.show();
+                Window window = customDialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                return false;
+            }
+        });
 
         moveCamera(new LatLng(order.getDriver().getLat(), order.getDriver().getLan()), 5);
     }

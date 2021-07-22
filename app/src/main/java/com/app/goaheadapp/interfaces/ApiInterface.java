@@ -322,6 +322,14 @@ public interface ApiInterface {
     public Call<DrivierResponse> getDrivers(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
 
 
+    @Headers({
+            "Accept: application/json"
+    })
+    @FormUrlEncoded
+    @POST("approvOrReject")
+    public Call<AddSuccessfullyResponse> approvOrReject(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage,@Field("order_id") String order_id,@Field("type") String type);
+
+
 //    @FormUrlEncoded
 //    @POST("api?action=update&model=workers")
 //    public Call<UpdateResponse> update(@Query("api_token") String mytoken,@Field("id") String id,@Field("bio") String bio,@Field("title") String title,@Field("job") String job);

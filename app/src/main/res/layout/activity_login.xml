@@ -65,7 +65,7 @@
                 android:drawableLeft="@drawable/ic_email"
                 android:drawablePadding="8dp"
                 android:hint="@string/enter_your_email"
-                android:text="huda22@gmail.com"
+                android:text="user_ios@hotmail.com"
                 android:inputType="textEmailAddress"
                 android:padding="8dp" />
 
@@ -84,7 +84,7 @@
                 android:gravity="start"
                 android:hint="@string/enter_your_password"
                 android:inputType="textPassword"
-                android:text="123456789"
+                android:text="123456"
                 android:padding="10dp" />
 
             <androidx.appcompat.widget.AppCompatTextView

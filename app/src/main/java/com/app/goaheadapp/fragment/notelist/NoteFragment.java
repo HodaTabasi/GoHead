@@ -74,7 +74,7 @@ public class NoteFragment extends Fragment {
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NoteListResponse>() {
             @Override
             public void onChanged(NoteListResponse noteListResponse) {
-                if (noteListResponse.isStatus()){
+                if (noteListResponse.isStatus()) {
                     adapter.addAll(noteListResponse.getItems());
                 }
             }
@@ -82,7 +82,13 @@ public class NoteFragment extends Fragment {
     }
 
     private void initView(View view) {
-        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.resc.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MessageLists.clear();
     }
 }

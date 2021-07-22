@@ -1,6 +1,7 @@
 package com.app.goaheadapp.fragment.chat;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -57,6 +58,7 @@ public class ChatViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
+                Log.e("ffffffffff",t.getMessage());
             }
         });
     }

@@ -39,7 +39,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.List;
 
 import io.paperdb.Paper;
-
 public class MainDriverActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ConstraintLayout mContainer;
@@ -171,6 +170,7 @@ public class MainDriverActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        mPermissionGranted = false;
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
 
             Toast.makeText(this, "Generate", Toast.LENGTH_SHORT).show();

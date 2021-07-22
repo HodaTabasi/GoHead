@@ -23,9 +23,10 @@ public class DriverViewModel extends ViewModel {
 
     MutableLiveData<OrderResponse> postsMutableLiveData = new MutableLiveData<>();
     MutableLiveData<AddSuccessfullyResponse> postsMutableLiveData1 = new MutableLiveData<>();
+    MutableLiveData<AddSuccessfullyResponse> postsMutableLiveData2 = new MutableLiveData<>();
 
 
-    public void getOrder(String id,final Context homeFragment) {
+    public void getOrder(String id, final Context homeFragment) {
         MyProgressDialog.showDialog(homeFragment);
         User user = Paper.book().read("data");
         String token = "Bearer " + user.getAccess_token();
@@ -42,18 +43,18 @@ public class DriverViewModel extends ViewModel {
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
                 MyProgressDialog.dismissDialog();
-                Log.e("ffffffffffffff",t.getMessage());
+                Log.e("ffffffffffffff", t.getMessage());
             }
         });
     }
 
-    public void sendMessage(Context homeFragment,String userId,String orderId,String message){
+    public void sendMessage(Context homeFragment, String userId, String orderId, String message) {
         MyProgressDialog.showDialog(homeFragment);
         User user = Paper.book().read("data");
         String token = "Bearer " + user.getAccess_token();
         String currentLang = Locale.getDefault().getLanguage();
 
-        NetworkUtils.getInstance().sendMessage(token,currentLang,orderId,userId,message).enqueue(new Callback<AddSuccessfullyResponse>() {
+        NetworkUtils.getInstance().sendMessage(token, currentLang, orderId, userId, message).enqueue(new Callback<AddSuccessfullyResponse>() {
             @Override
             public void onResponse(Call<AddSuccessfullyResponse> call, Response<AddSuccessfullyResponse> response) {
                 postsMutableLiveData1.postValue(response.body());
@@ -62,6 +63,26 @@ public class DriverViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
+            }
+        });
+    }
+
+    public void approvOrReject(Context homeFragment, String type, String orderId) {
+        MyProgressDialog.showDialog(homeFragment);
+        User user = Paper.book().read("data");
+        String token = "Bearer " + user.getAccess_token();
+        String currentLang = Locale.getDefault().getLanguage();
+
+        NetworkUtils.getInstance().approvOrReject(token, currentLang, orderId, type).enqueue(new Callback<AddSuccessfullyResponse>() {
+            @Override
+            public void onResponse(Call<AddSuccessfullyResponse> call, Response<AddSuccessfullyResponse> response) {
+                postsMutableLiveData2.postValue(response.body());
+                MyProgressDialog.dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
+
             }
         });
     }

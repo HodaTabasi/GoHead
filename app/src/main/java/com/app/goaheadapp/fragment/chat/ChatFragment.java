@@ -1,5 +1,7 @@
 package com.app.goaheadapp.fragment.chat;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,12 +14,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.app.goaheadapp.R;
+import com.app.goaheadapp.Utils.Permissions;
 import com.app.goaheadapp.adapters.MessageAdapter;
 import com.app.goaheadapp.databinding.FragmentCartBinding;
 import com.app.goaheadapp.databinding.FragmentChatBinding;
@@ -43,6 +47,8 @@ public class ChatFragment extends Fragment {
     List<ChatDitails> ditails;
     MessageList list;
     Order order;
+    User user;
+    private Permissions permissions;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -53,6 +59,7 @@ public class ChatFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         ditails = new ArrayList<>();
+        permissions = new Permissions();
         adapter = new MessageAdapter(ditails);
     }
 
@@ -71,15 +78,21 @@ public class ChatFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+        if (!permissions.isCallPhoneOk(getContext()))
+            permissions.requestCallPhone(getActivity());
+
         initView();
 
         viewModel.getNoteDitails(getActivity(), list.getId() + "");
 
+        viewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<ChatDetailsResponse>() {
             @Override
             public void onChanged(ChatDetailsResponse chatDetailsResponse) {
                 if (chatDetailsResponse.isStatus()) {
                     adapter.addMore(chatDetailsResponse.getItems());
+                    binding.resc.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
         });
@@ -91,9 +104,29 @@ public class ChatFragment extends Fragment {
                 if (addSuccessfullyResponse.isStatus()) {
                     Toast.makeText(getContext(), "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     binding.message.setText("");
+                } else {
+                    Toast.makeText(getContext(), "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        binding.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call();
+            }
+        });
+    }
+
+    private void call() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        if (user.getType() == 1) {
+            intent.setData(Uri.parse("tel:" + list.getDriver_mobile()));
+        } else {
+            intent.setData(Uri.parse("tel:" + list.getUser_mobile()));
+        }
+
+        startActivity(intent);
     }
 
     private void initView() {
@@ -104,7 +137,7 @@ public class ChatFragment extends Fragment {
         } else
             order = bundle.getParcelable("object");
 
-        User user = Paper.book().read("data");
+        user = Paper.book().read("data");
         binding.setUser(user);
 
         binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
