@@ -247,7 +247,7 @@
                             android:drawableStart="@drawable/ic_email"
                             android:drawableLeft="@drawable/ic_email"
                             android:drawablePadding="8dp"
-                            android:hint="@string/enter_your_email"
+                            android:hint="@string/enter_your_card"
                             android:inputType="textEmailAddress"
                             android:padding="8dp" />
 
@@ -263,7 +263,7 @@
                             android:drawableStart="@drawable/ic_lock"
                             android:drawableLeft="@drawable/ic_lock"
                             android:drawablePadding="8dp"
-                            android:hint="@string/enter_your_password"
+                            android:hint="@string/enter_your_name"
                             android:padding="10dp" />
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -309,7 +309,7 @@
                                 android:background="@drawable/shadow"
                                 android:gravity="center"
                                 android:padding="5dp"
-                                android:hint="MM"
+                                android:hint="@string/mm"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp" />
@@ -322,7 +322,7 @@
                                 android:background="@drawable/shadow"
                                 android:gravity="center"
                                 android:padding="5dp"
-                                android:hint="Year"
+                                android:hint="@string/year"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp" />

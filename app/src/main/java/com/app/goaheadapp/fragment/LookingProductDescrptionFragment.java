@@ -15,11 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentLookingProductDescrptionBinding;
 import com.app.goaheadapp.models.SubCategory;
@@ -28,6 +31,7 @@ public class LookingProductDescrptionFragment extends Fragment {
 
     FragmentLookingProductDescrptionBinding binding;
     View view;
+    private HomeViewModel viewModel;
 
     public LookingProductDescrptionFragment() {
         // Required empty public constructor
@@ -47,9 +51,10 @@ public class LookingProductDescrptionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         final SubCategory subCategory = getArguments().getParcelable("object");
+
         binding.setItem(subCategory);
+        viewModel = new HomeViewModel(getContext());
         binding.browes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +65,17 @@ public class LookingProductDescrptionFragment extends Fragment {
                     Toast.makeText(getContext(), "No application can handle this request."
                             + " Please install a webbrowser", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
+                }
+            }
+        });
+
+        binding.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    viewModel.setFavoriteStore(getContext(), subCategory.getId() + "");
+                } else {
+                    viewModel.removeFavoriteStore(getContext(), subCategory.getId() + "");
                 }
             }
         });

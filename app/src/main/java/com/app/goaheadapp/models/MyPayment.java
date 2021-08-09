@@ -6,33 +6,32 @@ import androidx.databinding.PropertyChangeRegistry;
 
 import com.app.goaheadapp.BR;
 
-public class Notification implements Observable {
+public class MyPayment implements Observable {
 
     /**
      * id : 1
      * user_id : 2
-     * order_id : 22
-     * type : 0
-     * status : 0
-     * created_at : 2021-06-01 14:46:11
-     * driver :
-     * total : 1277
-     * title : طلب جديد
-     * body : تم انشاء طلبك بنجاح
+     * type : 1
+     * holdername : ahmed omsa
+     * cardNo : 10352652
+     * email : osama@hotmail.com
+     * expiredate : 2020-09-19
+     * created_at : 2021-08-07 14:05:08
+     * updated_at : 2021-08-07 14:05:08
+     * deleted_at : 0000-00-00 00:00:00
      */
 
     private int id;
     private int user_id;
-    private int order_id;
     private int type;
-    private int status;
+    private String holdername;
+    private String cardNo;
+    private String email;
+    private String expiredate;
     private String created_at;
-    private User driver;
-    private String total;
-    private String title;
-    private String body;
+    private String updated_at;
+    private String deleted_at;
     private transient PropertyChangeRegistry propertyChangeRegistry = new PropertyChangeRegistry();
-
 
     @Bindable
     public int getId() {
@@ -55,16 +54,6 @@ public class Notification implements Observable {
     }
 
     @Bindable
-    public int getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
-        notifyChange(BR.order_id);
-    }
-
-    @Bindable
     public int getType() {
         return type;
     }
@@ -75,13 +64,43 @@ public class Notification implements Observable {
     }
 
     @Bindable
-    public int getStatus() {
-        return status;
+    public String getHoldername() {
+        return holdername;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-        notifyChange(BR.status);
+    public void setHoldername(String holdername) {
+        this.holdername = holdername;
+        notifyChange(BR.holdername);
+    }
+
+    @Bindable
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+        notifyChange(BR.cardNo);
+    }
+
+    @Bindable
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+        notifyChange(BR.email);
+    }
+
+    @Bindable
+    public String getExpiredate() {
+        return expiredate;
+    }
+
+    public void setExpiredate(String expiredate) {
+        this.expiredate = expiredate;
+        notifyChange(BR.expiredate);
     }
 
     @Bindable
@@ -95,43 +114,23 @@ public class Notification implements Observable {
     }
 
     @Bindable
-    public User getDriver() {
-        return driver;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setDriver(User driver) {
-        this.driver = driver;
-        notifyChange(BR.driver);
-    }
-
-    @Bindable
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
-        notifyChange(BR.total);
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+        notifyChange(BR.updated_at);
     }
 
     @Bindable
-    public String getTitle() {
-        return title;
+    public String getDeleted_at() {
+        return deleted_at;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-        notifyChange(BR.title);
-    }
-
-    @Bindable
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-        notifyChange(BR.body);
+    public void setDeleted_at(String deleted_at) {
+        this.deleted_at = deleted_at;
+        notifyChange(BR.deleted_at);
     }
 
     private synchronized void notifyChange(int propertyId) {

@@ -68,7 +68,7 @@ public class SubCatListAdapter extends RecyclerView.Adapter<SubCatListAdapter.VH
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
                     viewModel.setFavoriteStore(context,subCategory.getId()+"");
-                }else {
+                } else {
                     viewModel.removeFavoriteStore(context,subCategory.getId()+"");
                 }
             }

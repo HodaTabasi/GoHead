@@ -15,9 +15,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
@@ -35,6 +37,7 @@ public class ShopContentFragment extends Fragment {
     private ShopContentViewModel viewModel;
     private ProductAdapter adapter;
     SubCategory subCategory;
+    private HomeViewModel homeViewModel;
 
     public ShopContentFragment() {
         // Required empty public constructor
@@ -57,10 +60,15 @@ public class ShopContentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         binding.setTransfer(new HomeViewModel(getContext()));
+
+        homeViewModel = new HomeViewModel(getContext());
 
         subCategory = getArguments().getParcelable("object");
         binding.setItem(subCategory);
+
+        Log.e("fffffffffff",subCategory.getIs_favourite()+" ");
 
         viewModel = new ViewModelProvider(getActivity()).get(ShopContentViewModel.class);
         binding.setMymodel(viewModel);
@@ -86,6 +94,18 @@ public class ShopContentFragment extends Fragment {
 
             }
         });
+
+//        binding.fav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//                if (b) {
+//                    homeViewModel.setFavoriteStore(getContext(), subCategory.getId() + "");
+//                } else {
+//                    homeViewModel.removeFavoriteStore(getContext(), subCategory.getId() + "");
+//                }
+//            }
+//        });
     }
 
     private void putData(int id, int i) {
@@ -107,7 +127,11 @@ public class ShopContentFragment extends Fragment {
                 binding.tabLayout.removeAllTabs();
                 if (storeResponse.isStatus()){
                     for (StoreResponse.ItemsBean category: storeResponse.getItems()){
-                            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.getTitle()).setTag(category),false);
+                        if (storeResponse.getItems().get(0).getId() == category.getId()) {
+                            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.getTitle()).setTag(category), true);
+                        } else {
+                            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.getTitle()).setTag(category), false);
+                        }
                         }
                     }
             }

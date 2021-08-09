@@ -140,7 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layoutDirection="rtl"
+                    android:layoutDirection="ltr"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -273,7 +273,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/cancel"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/shap_tab_defult_call"
                     android:gravity="center"

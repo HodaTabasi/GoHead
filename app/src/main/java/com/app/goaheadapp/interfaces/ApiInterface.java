@@ -12,6 +12,7 @@ import com.app.goaheadapp.models.DeliveryCostResponse;
 import com.app.goaheadapp.models.DrivierResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
+import com.app.goaheadapp.models.MyPaymentResponse;
 import com.app.goaheadapp.models.NoteListResponse;
 import com.app.goaheadapp.models.NotificationResponse;
 import com.app.goaheadapp.models.OrderResponse;
@@ -22,6 +23,7 @@ import com.app.goaheadapp.models.RateResponse;
 import com.app.goaheadapp.models.SearchResponse;
 import com.app.goaheadapp.models.SetiingResponse;
 import com.app.goaheadapp.models.SignUpResponse;
+import com.app.goaheadapp.models.SliderResponse;
 import com.app.goaheadapp.models.StoreResponse;
 import com.app.goaheadapp.models.SubCatResponse;
 import com.app.goaheadapp.models.UpdateImageResponse;
@@ -50,7 +52,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("login")
     public Call<SignUpResponse> login(@Field("email") String email, @Field("password") String password);
-
 
     @Headers({
             "Accept: application/json"
@@ -215,6 +216,19 @@ public interface ApiInterface {
     @Headers({
             "Accept: application/json"
     })
+    @GET("myPayments")
+    public Call<MyPaymentResponse> getMyPayments(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
+
+    @Headers({
+            "Accept: application/json"
+    })
+    @GET("deletePayment/{id}")
+    public Call<AddSuccessfullyResponse> deletePayment(@Path("id") String id,@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
+
+
+    @Headers({
+            "Accept: application/json"
+    })
     @GET("settings")
     public Call<SetiingResponse> getSetting(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage);
 
@@ -234,6 +248,9 @@ public interface ApiInterface {
 
     @GET("ads/{id}")
     public Call<AddsResponse> getAdds(@Path("id") String id,@Header("Accept-Language") String AcceptLanguage);
+
+    @GET("slider")
+    public Call<SliderResponse> getSliders(@Header("Accept-Language") String AcceptLanguage);
 
     @Headers({
             "Accept: application/json"
@@ -328,6 +345,13 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("approvOrReject")
     public Call<AddSuccessfullyResponse> approvOrReject(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage,@Field("order_id") String order_id,@Field("type") String type);
+
+    @Headers({
+            "Accept: application/json"
+    })
+    @FormUrlEncoded
+    @POST("checkOutProduct")
+    public Call<AddSuccessfullyResponse> checkOutProduct(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage,@Field("order_id") String order_id,@Field("type") String type);
 
 
 //    @FormUrlEncoded

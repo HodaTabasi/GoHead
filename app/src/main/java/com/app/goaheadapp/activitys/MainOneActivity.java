@@ -77,7 +77,6 @@ public class MainOneActivity extends AppCompatActivity implements View.OnClickLi
         navigationView.setNavigationItemSelectedListener(selectedListener);
 
         User user = Paper.book().read("data");
-
     }
 
     NavigationView.OnNavigationItemSelectedListener selectedListener = new NavigationView.OnNavigationItemSelectedListener() {

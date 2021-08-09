@@ -14,6 +14,7 @@ import com.app.goaheadapp.models.DeliveryCostResponse;
 import com.app.goaheadapp.models.DrivierResponse;
 import com.app.goaheadapp.models.FavoriteResponse;
 import com.app.goaheadapp.models.IncteaseCuntResponse;
+import com.app.goaheadapp.models.MyPaymentResponse;
 import com.app.goaheadapp.models.NoteListResponse;
 import com.app.goaheadapp.models.NotificationResponse;
 import com.app.goaheadapp.models.OrderResponse;
@@ -24,6 +25,7 @@ import com.app.goaheadapp.models.RateResponse;
 import com.app.goaheadapp.models.SearchResponse;
 import com.app.goaheadapp.models.SetiingResponse;
 import com.app.goaheadapp.models.SignUpResponse;
+import com.app.goaheadapp.models.SliderResponse;
 import com.app.goaheadapp.models.StoreResponse;
 import com.app.goaheadapp.models.SubCatResponse;
 import com.app.goaheadapp.models.UpdateImageResponse;
@@ -42,7 +44,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkUtils {
 
-    private final String BASE_URL = "http://goaheadapp.net/api/";
+    private final String BASE_URL = "https://wecansa.com/api/";
+//    private final String BASE_URL = "http://goaheadapp.net/api/";
 
 
     private static NetworkUtils instance;
@@ -186,6 +189,14 @@ public class NetworkUtils {
         return apiInterface.getPaymentMethod(token, lang);
     }
 
+    public Call<MyPaymentResponse> getMyPayments(String token, String lang) {
+        return apiInterface.getMyPayments(token, lang);
+    }
+
+    public Call<AddSuccessfullyResponse> deletePayment(String id,String token, String lang) {
+        return apiInterface.deletePayment(id,token, lang);
+    }
+
     public Call<SetiingResponse> getSetting(String token, String lang) {
         return apiInterface.getSetting(token, lang);
     }
@@ -204,6 +215,10 @@ public class NetworkUtils {
 
     public Call<AddsResponse> getAdds(String id, String lang) {
         return apiInterface.getAdds(id, lang);
+    }
+
+    public Call<SliderResponse> getSliders(String lang) {
+        return apiInterface.getSliders(lang);
     }
 
     public Call<AddSuccessfullyResponse> clearAll(String token, String lang) {

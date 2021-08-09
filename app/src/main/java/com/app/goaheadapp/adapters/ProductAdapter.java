@@ -119,6 +119,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
                 navController.navigate(R.id.action_shopContentFragment_to_rateProductFragment,bundle);
             }
         });
+
+        holder.binding.ask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "go to payment", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

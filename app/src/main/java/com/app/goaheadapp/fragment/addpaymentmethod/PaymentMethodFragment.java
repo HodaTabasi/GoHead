@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +20,23 @@ import android.widget.Toast;
 
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentPaymentMethodBinding;
+import com.app.goaheadapp.models.AddSuccessfullyResponse;
+import com.app.goaheadapp.models.MyPayment;
+import com.app.goaheadapp.models.MyPaymentResponse;
 import com.app.goaheadapp.models.PaymentMethodResponse;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class PaymentMethodFragment extends Fragment {
 
     private FragmentPaymentMethodBinding bindingPayment;
     private View view;
-    private int items;
+    private int items = 1;
     private PaymentViewModel viewModel;
     HashMap<String, String> map = new HashMap<>();
+    MyPayment[] payments;
 
     public PaymentMethodFragment() {
         // Required empty public constructor
@@ -51,7 +57,28 @@ public class PaymentMethodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = new ViewModelProvider(getActivity()).get(PaymentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaymentViewModel.class);
+
+        viewModel.getMyPayment(getContext());
+        viewModel.myPaymentMutableLiveData.removeObservers(getViewLifecycleOwner());
+        viewModel.myPaymentMutableLiveData.observe(getViewLifecycleOwner(), new Observer<MyPaymentResponse>() {
+            @Override
+            public void onChanged(MyPaymentResponse myPaymentResponse) {
+                if (myPaymentResponse.isStatus()) {
+                    putData(myPaymentResponse.getItems());
+                } else {
+                    Toast.makeText(getContext(), "" + myPaymentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        viewModel.deletePaymentMutableLiveData.removeObservers(getViewLifecycleOwner());
+        viewModel.deletePaymentMutableLiveData.observe(getViewLifecycleOwner(), new Observer<AddSuccessfullyResponse>() {
+            @Override
+            public void onChanged(AddSuccessfullyResponse addSuccessfullyResponse) {
+                Toast.makeText(getContext(), "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         bindingPayment.pay.setColorFilter(null);
         bindingPayment.visaa.setColorFilter(ContextCompat.getColor(getContext(), R.color.tintBackground), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -97,6 +124,33 @@ public class PaymentMethodFragment extends Fragment {
             }
         });
 
+        bindingPayment.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.deletePayment(getContext(), payments[items].getId() + "");
+            }
+        });
+
+    }
+
+    private void putData(List<MyPayment> items) {
+        for (MyPayment payment : items) {
+            switch (payment.getType()) {
+                case 1:
+                case 3:
+                    bindingPayment.cardNumber.setText(payment.getCardNo());
+                    bindingPayment.holderName.setText(payment.getHoldername());
+//                    bindingPayment.cvv.setText(payment.get());
+                    String[] arrOfStr = payment.getExpiredate().split("-");
+                    bindingPayment.month.setText(arrOfStr[1]);
+                    bindingPayment.year.setText(arrOfStr[0]);
+                    break;
+                case 2:
+                    bindingPayment.email.setText(payment.getEmail());
+                    break;
+            }
+            payments[payment.getType()] = payment;
+        }
     }
 
     private void addPayment() {
@@ -109,13 +163,18 @@ public class PaymentMethodFragment extends Fragment {
                 map.put("cardNo", bindingPayment.cardNumber.getText().toString());
                 map.put("expiredate", bindingPayment.month.getText().toString() + "-" + bindingPayment.year.getText().toString());
                 break;
+            case 3:
+                break;
         }
+
         map.put("type", String.valueOf(items));
         viewModel.addPayment(map, getActivity());
         viewModel.mutableLiveData.observe(getViewLifecycleOwner(), new Observer<PaymentMethodResponse>() {
             @Override
             public void onChanged(PaymentMethodResponse paymentMethodResponse) {
                 if (paymentMethodResponse.isStatus()) {
+                    Toast.makeText(getContext(), "" + paymentMethodResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(getContext(), "" + paymentMethodResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

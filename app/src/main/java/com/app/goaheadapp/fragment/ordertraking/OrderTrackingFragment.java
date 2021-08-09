@@ -3,9 +3,11 @@ package com.app.goaheadapp.fragment.ordertraking;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,7 +74,7 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
     private LatLng mUserPosition;
     OrderTrakingStoreAdapter adapter;
     private ArrayList<Order> orders;
-    String id = "3";
+    String id = "0";
     Permissions permissions;
     private Order order;
 
@@ -138,7 +140,7 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
 
                 binding.end.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_midile_tab_selector));
                 binding.end.setTextColor(Color.BLACK);
-                id = "3";
+                id = "0";
                 getData(id);
 
 
@@ -161,7 +163,7 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                 binding.end.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_midile_tab_selector));
                 binding.end.setTextColor(Color.BLACK);
 
-                id = "5";
+                id = "2";
                 getData(id);
 
                 binding.itemOrderResent.resents.setVisibility(View.VISIBLE);
@@ -183,13 +185,60 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                 binding.end.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
                 binding.end.setTextColor(Color.WHITE);
 
-                id = "4";
+                id = "1";
                 getData(id);
 //
                 binding.itemOrderOld.olders.setVisibility(View.VISIBLE);
                 binding.itemOrderResent.resents.setVisibility(View.GONE);
             }
         });
+
+        binding.itemOrderResent.call1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!permissions.isCallPhoneOk(getContext()))
+                    permissions.requestCallPhone(getActivity());
+                else
+                    call(order.getMobile());
+            }
+        });
+
+        binding.itemOrderResent.call1Drive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!permissions.isCallPhoneOk(getContext()))
+                    permissions.requestCallPhone(getActivity());
+                else
+                    call(binding.itemOrderResent.driverNumber.getText().toString());
+            }
+        });
+
+        binding.itemOrderOld.call1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!permissions.isCallPhoneOk(getContext()))
+                    permissions.requestCallPhone(getActivity());
+                else
+                    call(order.getMobile());
+            }
+        });
+
+        binding.itemOrderOld.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!permissions.isCallPhoneOk(getContext()))
+                    permissions.requestCallPhone(getActivity());
+                else
+                    call(binding.itemOrderResent.driverNumber.getText().toString());
+            }
+        });
+    }
+
+    private void call(String mobile) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+
+        intent.setData(Uri.parse("tel:" + mobile));
+        startActivity(intent);
     }
 
     private void initMAP() {
@@ -383,18 +432,21 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
     }
 
     private void putData(Order order) {
-        if (id.equals("3")) {
+        if (id.equals("0")) {
             binding.itemOrderResent.setOrder(order);
-        } else if (id.equals("4")) {
+        } else if (id.equals("1")) {
             binding.itemOrderOld.setOrder(order);
-        } else if (id.equals("5")) {
+        } else if (id.equals("2")) {
             binding.itemOrderResent.setOrder(order);
         }
-        marker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())))
-                .title("تفاصيل الطلب")
-                .draggable(true));
+        if (order.getLat() != null && order.getLan() != null) {
+            marker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())))
+                    .title("تفاصيل الطلب")
+                    .draggable(true));
 
-        moveCamera(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())), 5);
+            moveCamera(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())), 5);
+        }
+
     }
 }

@@ -74,15 +74,16 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionSend"
                         android:inputType="text"
+                        android:drawablePadding="8dp"
                         android:drawableEnd="@drawable/ic_baseline_search_24"
                         android:drawableRight="@drawable/ic_baseline_search_24"
-                        android:hint="add name city or product" />
+                        android:hint="@string/add_name_city_or_product" />
 
                 </LinearLayout>
 
                 <FrameLayout
                     android:id="@+id/lin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -93,7 +94,9 @@
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +143,6 @@
 
                         <androidx.cardview.widget.CardView
                             app:cardCornerRadius="6dp"
-                            android:layout_margin="16dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -157,11 +159,10 @@
                                 app:sliderIndicatorOrientation="horizontal"
                                 app:sliderIndicatorPadding="3dp"
                                 app:sliderIndicatorRadius="2dp"
-                                app:sliderIndicatorSelectedColor="#5A5A5A"
-                                app:sliderIndicatorUnselectedColor="#FFF"
+                                app:sliderIndicatorSelectedColor="@color/colorAccent"
+                                app:sliderIndicatorUnselectedColor="#5A5A5A"
                                 app:sliderScrollTimeInSec="1"
                                 app:sliderStartAutoCycle="true" />
-
                         </androidx.cardview.widget.CardView>
 
                         <androidx.recyclerview.widget.RecyclerView

@@ -16,7 +16,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
+import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentRateProductBinding;
 import com.app.goaheadapp.models.Product;
@@ -29,6 +31,8 @@ public class RateProductFragment extends Fragment {
     FragmentRateProductBinding binding;
     View view;
     RateProductViewModel viewModel;
+    private HomeViewModel homeViewModel;
+
     public RateProductFragment() {
         // Required empty public constructor
     }
@@ -53,13 +57,25 @@ public class RateProductFragment extends Fragment {
         binding.setProduct(product);
         binding.setSubcat(subCategory);
 
-        viewModel = new ViewModelProvider(getActivity()).get(RateProductViewModel.class);
+        viewModel = new ViewModelProvider(this).get(RateProductViewModel.class);
+        homeViewModel = new HomeViewModel(getContext());
         binding.setMymodel(viewModel);
 
         binding.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.Rate(binding.getProduct().getId()+"",binding.ratingBarr.getRating()+"",binding.text.getText().toString(),getContext());
+                viewModel.Rate(binding.getProduct().getId() + "", binding.ratingBarr.getRating() + "", binding.text.getText().toString(), getContext());
+            }
+        });
+
+        binding.fav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    homeViewModel.setFavoriteStore(getContext(), subCategory.getId() + "");
+                } else {
+                    homeViewModel.removeFavoriteStore(getContext(), subCategory.getId() + "");
+                }
             }
         });
     }

@@ -173,7 +173,7 @@ public class HomeViewModel {
 
                     @Override
                     public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
-
+                        MyProgressDialog.dismissDialog();
                     }
                 });
     }
@@ -193,7 +193,7 @@ public class HomeViewModel {
 
                     @Override
                     public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
-
+                        MyProgressDialog.dismissDialog();
                     }
                 });
     }

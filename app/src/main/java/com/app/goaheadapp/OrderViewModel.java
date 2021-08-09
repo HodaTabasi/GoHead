@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -89,82 +90,90 @@ public class OrderViewModel {
     }
 
     public void toDriverNote(User driver) {
-        final Dialog dialog = new Dialog(context, R.style.mydialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.dialog_send_note);
+        if (driver != null) {
+            final Dialog dialog = new Dialog(context, R.style.mydialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.dialog_send_note);
 
-        CircleImageView driverImage;
-        AppCompatTextView driverName;
-        RatingBar ratingBar;
-        AppCompatTextView productPlace;
+            CircleImageView driverImage;
+            AppCompatTextView driverName;
+            RatingBar ratingBar;
+            AppCompatTextView productPlace;
 
-        User user = Paper.book().read("data");
-        String token = "Bearer " + user.getAccess_token();
-        String currentLang = Locale.getDefault().getLanguage();
+            User user = Paper.book().read("data");
+            String token = "Bearer " + user.getAccess_token();
+            String currentLang = Locale.getDefault().getLanguage();
 
-        AppCompatEditText note = dialog.findViewById(R.id.note);
-        AppCompatTextView call = dialog.findViewById(R.id.call);
+            AppCompatEditText note = dialog.findViewById(R.id.note);
+            AppCompatTextView call = dialog.findViewById(R.id.call);
 
-        AppCompatButton close = dialog.findViewById(R.id.cancel);
-        AppCompatButton ok = dialog.findViewById(R.id.send);
+            AppCompatButton close = dialog.findViewById(R.id.cancel);
+            AppCompatButton ok = dialog.findViewById(R.id.send);
 
-        driverImage = (CircleImageView) dialog.findViewById(R.id.driver_image);
-        Glide.with(driverImage)
-                .load(driver.getProfile_image())
-                .centerCrop()
-                .placeholder(R.drawable.c_blue_shape)
-                .into(driverImage);
-        driverName = (AppCompatTextView) dialog.findViewById(R.id.driver_name);
-        driverName.setText(driver.getName());
-        ratingBar = (RatingBar) dialog.findViewById(R.id.ratingBar);
-        ratingBar.setRating(Float.valueOf(driver.getRate()));
-        productPlace = (AppCompatTextView) dialog.findViewById(R.id.product_place);
-        productPlace.setText(driver.getMobile());
+            driverImage = (CircleImageView) dialog.findViewById(R.id.driver_image);
 
-
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-
-                intent.setData(Uri.parse("tel:" + driver.getMobile()));
-                context.startActivity(intent);
+            if (driver.getProfile_image() != null) {
+                Glide.with(driverImage)
+                        .load(driver.getProfile_image())
+                        .centerCrop()
+                        .placeholder(R.drawable.c_blue_shape)
+                        .into(driverImage);
             }
-        });
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+            driverName = (AppCompatTextView) dialog.findViewById(R.id.driver_name);
+            driverName.setText(driver.getName());
+            ratingBar = (RatingBar) dialog.findViewById(R.id.ratingBar);
+            ratingBar.setRating(Float.valueOf(driver.getRate()));
+            productPlace = (AppCompatTextView) dialog.findViewById(R.id.product_place);
+            productPlace.setText(driver.getMobile());
 
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyProgressDialog.showDialog(context);
-                NetworkUtils.getInstance()
-                        .sendMessageToDriver(token, currentLang, String.valueOf(""), String.valueOf(driver.getId()), note.getText().toString()).enqueue(new Callback<AddSuccessfullyResponse>() {
-                    @Override
-                    public void onResponse(Call<AddSuccessfullyResponse> call, Response<AddSuccessfullyResponse> response) {
-                        AddSuccessfullyResponse addSuccessfullyResponse = response.body();
-                        Toast.makeText(context, "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        MyProgressDialog.dismissDialog();
-                    }
 
-                    @Override
-                    public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
-                        Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        MyProgressDialog.dismissDialog();
-                    }
-                });
-            }
-        });
+            call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
 
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    intent.setData(Uri.parse("tel:" + driver.getMobile()));
+                    context.startActivity(intent);
+                }
+            });
+
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyProgressDialog.showDialog(context);
+                    NetworkUtils.getInstance()
+                            .sendMessageToDriver(token, currentLang, String.valueOf(""), String.valueOf(driver.getId()), note.getText().toString()).enqueue(new Callback<AddSuccessfullyResponse>() {
+                        @Override
+                        public void onResponse(Call<AddSuccessfullyResponse> call, Response<AddSuccessfullyResponse> response) {
+                            AddSuccessfullyResponse addSuccessfullyResponse = response.body();
+                            Toast.makeText(context, "" + addSuccessfullyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            MyProgressDialog.dismissDialog();
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddSuccessfullyResponse> call, Throwable t) {
+                            Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            MyProgressDialog.dismissDialog();
+                        }
+                    });
+                }
+            });
+
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        } else {
+            Toast.makeText(context, "لا يوجد سائق تم اختياره", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void editUser(String s, String s1) {
@@ -204,73 +213,100 @@ public class OrderViewModel {
     }
 
     public void Rate(int id, Order order) {
-        final Dialog dialog = new Dialog(context, R.style.mydialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.dialog_rate);
-
-        User user = Paper.book().read("data");
-        String token = "Bearer " + user.getAccess_token();
-        String currentLang = Locale.getDefault().getLanguage();
-
-        AppCompatEditText note = dialog.findViewById(R.id.note);
-        RatingBar rate = dialog.findViewById(R.id.ratingBarr);
-
-        AppCompatButton close = dialog.findViewById(R.id.cancel);
-        AppCompatButton ok = dialog.findViewById(R.id.send);
-
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
+        if (id == 2) {
+            if (order.getDriver() == null) {
+                Toast.makeText(context, "NO Driver Found", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
 
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                MyProgressDialog.showDialog(context);
-                if (id == 1) {
-                    NetworkUtils.getInstance()
-                            .rateStore(token, currentLang, String.valueOf(order.getStore().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
-                        @Override
-                        public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
-                            DeleteCartResponse deleteCartResponse = response.body();
-                            MyProgressDialog.dismissDialog();
-                            Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-                        }
+            final Dialog dialog = new Dialog(context, R.style.mydialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.dialog_rate);
 
-                        @Override
-                        public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
-                            MyProgressDialog.dismissDialog();
-                        }
-                    });
-                } else if (id == 2) {
-                    NetworkUtils.getInstance()
-                            .rateDriver(token, currentLang, String.valueOf(order.getDriver().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
-                        @Override
-                        public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
-                            DeleteCartResponse deleteCartResponse = response.body();
-                            MyProgressDialog.dismissDialog();
-                            Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+            User user = Paper.book().read("data");
+            String token = "Bearer " + user.getAccess_token();
+            String currentLang = Locale.getDefault().getLanguage();
 
-                        }
+            AppCompatEditText note = dialog.findViewById(R.id.note);
+            RatingBar rate = dialog.findViewById(R.id.ratingBarr);
+            AppCompatTextView Name = (AppCompatTextView) dialog.findViewById(R.id.name);
+            CircleImageView Image = (CircleImageView) dialog.findViewById(R.id.profile_image);
+            AppCompatButton close = dialog.findViewById(R.id.cancel);
+            AppCompatButton ok = dialog.findViewById(R.id.send);
 
-                        @Override
-                        public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
-                            MyProgressDialog.dismissDialog();
-                        }
-                    });
+
+            if (id == 1) {
+                rate.setRating(order.getStore().getRate());
+                Glide.with(Image)
+                        .load(order.getStore().getImage())
+                        .centerCrop()
+                        .placeholder(R.drawable.c_blue_shape)
+                        .into(Image);
+                Name.setText(order.getStore().getName());
+            } else if (id == 2) {
+                rate.setRating(order.getDriver().getRate());
+                Glide.with(Image)
+                        .load(order.getDriver().getProfile_image())
+                        .centerCrop()
+                        .placeholder(R.drawable.c_blue_shape)
+                        .into(Image);
+                Name.setText(order.getDriver().getName());
+            }
+
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
                 }
-            }
-        });
+            });
 
-        dialog.show();
-        Window window = dialog.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    MyProgressDialog.showDialog(context);
+                    if (id == 1) {
+                        NetworkUtils.getInstance()
+                                .rateStore(token, currentLang, String.valueOf(order.getStore().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                            @Override
+                            public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
+                                DeleteCartResponse deleteCartResponse = response.body();
+                                MyProgressDialog.dismissDialog();
+                                Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
+                                MyProgressDialog.dismissDialog();
+                            }
+                        });
+                    } else if (id == 2) {
+                        NetworkUtils.getInstance()
+                                .rateDriver(token, currentLang, String.valueOf(order.getDriver().getId()), String.valueOf(rate.getNumStars()), note.getText().toString()).enqueue(new Callback<DeleteCartResponse>() {
+                            @Override
+                            public void onResponse(Call<DeleteCartResponse> call, Response<DeleteCartResponse> response) {
+                                DeleteCartResponse deleteCartResponse = response.body();
+                                MyProgressDialog.dismissDialog();
+                                Toast.makeText(context, "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
+                                MyProgressDialog.dismissDialog();
+                            }
+                        });
+                    }
+                }
+            });
+
+            dialog.show();
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     public void doneDialog() {

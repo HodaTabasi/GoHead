@@ -42,7 +42,7 @@ public class ShopContentViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<StoreResponse> call, Throwable t) {
-
+                MyProgressDialog.dismissDialog();
             }
         });
     }

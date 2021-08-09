@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +57,7 @@ public class ListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = new ViewModelProvider(getActivity()).get(ProductViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         binding.setMymodel(viewModel);
 
         binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -65,7 +66,7 @@ public class ListFragment extends Fragment {
         Category category = (Category) bundle.getParcelable("cat");
         cat_id = bundle.getString("cat_id");
         getCategory(cat_id, category);
-        getAdds(cat_id);
+        getAdds(String.valueOf(category.getId()));
 
 
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -133,7 +134,7 @@ public class ListFragment extends Fragment {
                             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.toString()).setTag(category), true);
                             putData(category.getId() + "");
                         } else {
-                            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.toString()), false);
+                            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(category.toString()).setTag(category), false);
                         }
 
                     }

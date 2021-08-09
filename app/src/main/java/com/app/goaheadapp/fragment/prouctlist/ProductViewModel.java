@@ -10,6 +10,7 @@ import com.app.goaheadapp.Utils.MyProgressDialog;
 import com.app.goaheadapp.models.AddsResponse;
 import com.app.goaheadapp.models.CatResponse;
 import com.app.goaheadapp.models.SearchResponse;
+import com.app.goaheadapp.models.SliderResponse;
 import com.app.goaheadapp.models.SubCatResponse;
 import com.app.goaheadapp.models.User;
 
@@ -27,6 +28,26 @@ public class ProductViewModel extends ViewModel {
     MutableLiveData<CatResponse> mutableLiveData = new MutableLiveData<>();
     MutableLiveData<SearchResponse> searchMutableLiveData = new MutableLiveData<>();
     MutableLiveData<AddsResponse> addsMutableLiveData = new MutableLiveData<>();
+
+    MutableLiveData<SliderResponse> slidersMutableLiveData = new MutableLiveData<>();
+
+    public void getSliders(Context homeFragment) {
+        MyProgressDialog.showDialog(homeFragment);
+        String currentLang = Locale.getDefault().getLanguage();
+
+        NetworkUtils.getInstance().getSliders(currentLang).enqueue(new Callback<SliderResponse>() {
+            @Override
+            public void onResponse(Call<SliderResponse> call, Response<SliderResponse> response) {
+                slidersMutableLiveData.postValue(response.body());
+                MyProgressDialog.dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<SliderResponse> call, Throwable t) {
+                MyProgressDialog.showDialog(homeFragment);
+            }
+        });
+    }
 
 //    public void getProduct(String token) {
 //        NetworkUtils1.getInstance().getProduct(token).enqueue(new Callback<GetResponse>() {
