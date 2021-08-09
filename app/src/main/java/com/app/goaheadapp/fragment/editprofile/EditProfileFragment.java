@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentEditProfileBinding;
 import com.app.goaheadapp.models.SignUpResponse;
@@ -25,7 +26,6 @@ import io.paperdb.Paper;
 
 
 public class EditProfileFragment extends Fragment {
-
 
 
     FragmentEditProfileBinding binding;
@@ -71,19 +71,41 @@ public class EditProfileFragment extends Fragment {
         binding.save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.update(binding.getMyworker(),binding.password.getText().toString(),getContext());
-                viewModel.mutableLiveData.observe(getViewLifecycleOwner(), new Observer<SignUpResponse>() {
-                    @Override
-                    public void onChanged(SignUpResponse signUpResponse) {
-                        if (signUpResponse.isStatus()){
-                            Paper.book().write("data",signUpResponse.getItems());
-                            Toast.makeText(getContext(), ""+signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(getContext(), ""+signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                loadData();
+            }
+        });
 
-                    }
-                });
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            updateData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateData() {
+        viewModel.update(binding.getMyworker(), binding.password.getText().toString(), getContext());
+        viewModel.mutableLiveData.observe(getViewLifecycleOwner(), new Observer<SignUpResponse>() {
+            @Override
+            public void onChanged(SignUpResponse signUpResponse) {
+                if (signUpResponse.isStatus()) {
+                    Paper.book().write("data", signUpResponse.getItems());
+                    Toast.makeText(getContext(), "" + signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "" + signUpResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -96,7 +118,7 @@ public class EditProfileFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Edit Profile");
+        textView.setText(R.string.edit_profile);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

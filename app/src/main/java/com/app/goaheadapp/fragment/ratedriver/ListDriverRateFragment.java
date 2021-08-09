@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.adapters.RateDriverAdapter;
 import com.app.goaheadapp.databinding.FragmentListDriverRateBinding;
@@ -47,7 +49,7 @@ public class ListDriverRateFragment extends Fragment {
         super.onCreate(savedInstanceState);
         rateViewModel = new ViewModelProvider(this).get(RateViewModel.class);
         rates = new ArrayList<>();
-        rateDriverAdapter = new RateDriverAdapter(getContext(),rates);
+        rateDriverAdapter = new RateDriverAdapter(getContext(), rates);
     }
 
     @Override
@@ -66,18 +68,44 @@ public class ListDriverRateFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         User user = Paper.book().read("data");
         binding.setUser(user);
-        binding.rateList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        binding.rateList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.rateList.setAdapter(rateDriverAdapter);
 
+        loadData();
+
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
         rateViewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         rateViewModel.getRate(getContext());
         rateViewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RateResponse>() {
             @Override
             public void onChanged(RateResponse rateResponse) {
-                rateDriverAdapter.addMore(rateResponse.getItems());
+                if (!rateResponse.getItems().isEmpty())
+                    rateDriverAdapter.addMore(rateResponse.getItems());
+                else
+                    Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @Override
     public void onResume() {
@@ -87,7 +115,7 @@ public class ListDriverRateFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Rate");
+        textView.setText(R.string.reste);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

@@ -142,12 +142,23 @@
     <string name="camera">الكاميرا</string>
     <string name="select_photo">اختار صورة</string>
     <string name="select_photoq">اختر صورة من</string>
-    <string name="v_s">ريال سعودي</string>
+    <string name="v_s">ر.س</string>
     <string name="add_name_city_or_product">ابحث عن اسم المطعم - اسم المدينة</string>
-    <string name="enter_your_card">enter card number</string>
-    <string name="enter_your_name">enter Cardholder\'s name</string>
-    <string name="mm">MM</string>
-    <string name="year">Year</string>
+    <string name="enter_your_card">اكتب رقم الكارت</string>
+    <string name="enter_your_name">اكتب اسم حامل البطاقة</string>
+    <string name="mm">الشهر</string>
+    <string name="year">السنة</string>
+    <string name="uprofile">الملف الشخصي</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="notification">الاشعارات</string>
+    <string name="pay_meth">بوابات الدفع الالكتروني</string>
+    <string name="about">من نحن</string>
+    <string name="contact">اتصل بنا</string>
+    <string name="pp">سياسات الخصوصية</string>
+    <string name="share">مشاركة التطبيق</string>
+    <string name="fav">المفضلة</string>
+    <string name="my_orders">طلباتي</string>
+    <string name="reste">التقيمات</string>
 
     <string-array name="lang">
     <item>اللغة</item>

@@ -4,46 +4,120 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mymodel"
             type="com.app.goaheadapp.fragment.setting.SettingViewModel" />
+
         <variable
             name="item"
             type="com.app.goaheadapp.models.AboutUs" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".fragment.setting.ShareAppFragment">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_pagebackground" />
+            android:id="@+id/reload"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_autorenew_24"
+            android:visibility="gone" />
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".fragment.setting.ShareAppFragment">
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:src="@drawable/ic_pagebackground" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/shadow"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/shadow"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="start"
+                            android:text="@string/social_media_account"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center"
+                            android:layoutDirection="ltr"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/face"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_weight="0.3"
+                                android:gravity="center"
+                                android:src="@drawable/ic_facebook" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/insta"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_weight="0.3"
+
+                                android:gravity="center"
+                                android:src="@drawable/ic_instagram_logo" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/tweet"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_weight="0.3"
+                                android:gravity="center"
+                                android:src="@drawable/ic_twiter" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -52,84 +126,27 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
-                        android:gravity="start"
-                        android:text="@string/social_media_account"
+                        android:gravity="center"
+                        android:text="@string/or"
                         android:textColor="@android:color/black"
                         android:textSize="18sp" />
 
-
-                    <LinearLayout
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/share_app"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:layoutDirection="ltr"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/face"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="0.3"
-                            android:gravity="center"
-                            android:src="@drawable/ic_facebook" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/insta"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="0.3"
-
-                            android:gravity="center"
-                            android:src="@drawable/ic_instagram_logo" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/tweet"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_weight="0.3"
-                            android:gravity="center"
-                            android:src="@drawable/ic_twiter" />
-                    </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/btn_shap1"
+                        android:text="@string/copy"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:text="@string/or"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/share_app"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="16dp"
-                    android:background="@drawable/btn_shap1"
-                    android:text="@string/copy"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
+            </ScrollView>
 
 
-        </ScrollView>
-
-
-    </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

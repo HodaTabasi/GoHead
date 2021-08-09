@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentDriverProfileBinding;
@@ -70,8 +71,9 @@ public class DriverProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         binding.setTransfer(new HomeViewModel(getContext()));
 
-        viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         binding.setMymodel(viewModel);
+        
         binding.langSwitch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -100,7 +102,8 @@ public class DriverProfileFragment extends Fragment {
 
             }
         });
-        getData();
+        loadData();
+        
         binding.chooesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,8 +121,26 @@ public class DriverProfileFragment extends Fragment {
                 binding.progressbar.setVisibility(View.GONE);
             }
         });
+
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
     }
 
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+    
     private void getData() {
         viewModel.getProfile(getActivity());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<SignUpResponse>() {
@@ -197,7 +218,11 @@ public class DriverProfileFragment extends Fragment {
                         body =
                                 MultipartBody.Part.createFormData("image", mSaveBit.getName(), requestFile);
 
-                        viewModel.updateProfileImage(getContext(),body);
+                        if (BaseActivity.isConnected(getContext())) {
+                            viewModel.updateProfileImage(getContext(), body);
+                        } else {
+                            Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, 70);
             }

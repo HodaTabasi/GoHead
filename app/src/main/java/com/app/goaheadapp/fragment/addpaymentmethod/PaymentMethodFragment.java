@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentPaymentMethodBinding;
 import com.app.goaheadapp.models.AddSuccessfullyResponse;
@@ -59,18 +60,7 @@ public class PaymentMethodFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(PaymentViewModel.class);
 
-        viewModel.getMyPayment(getContext());
-        viewModel.myPaymentMutableLiveData.removeObservers(getViewLifecycleOwner());
-        viewModel.myPaymentMutableLiveData.observe(getViewLifecycleOwner(), new Observer<MyPaymentResponse>() {
-            @Override
-            public void onChanged(MyPaymentResponse myPaymentResponse) {
-                if (myPaymentResponse.isStatus()) {
-                    putData(myPaymentResponse.getItems());
-                } else {
-                    Toast.makeText(getContext(), "" + myPaymentResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        loadData();
 
         viewModel.deletePaymentMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.deletePaymentMutableLiveData.observe(getViewLifecycleOwner(), new Observer<AddSuccessfullyResponse>() {
@@ -113,25 +103,71 @@ public class PaymentMethodFragment extends Fragment {
         bindingPayment.save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addPayment();
+                if (BaseActivity.isConnected(getContext())) {
+                    addPayment();
+                }else {
+                    Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         bindingPayment.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addPayment();
+                if (BaseActivity.isConnected(getContext())) {
+                    addPayment();
+                }else {
+                    Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         bindingPayment.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.deletePayment(getContext(), payments[items].getId() + "");
+                if (BaseActivity.isConnected(getContext())) {
+                    viewModel.deletePayment(getContext(), payments[items].getId() + "");
+                }else {
+                    Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+        bindingPayment.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
     }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            bindingPayment.content.setVisibility(View.VISIBLE);
+            bindingPayment.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            bindingPayment.content.setVisibility(View.GONE);
+            bindingPayment.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
+        viewModel.getMyPayment(getContext());
+        viewModel.myPaymentMutableLiveData.removeObservers(getViewLifecycleOwner());
+        viewModel.myPaymentMutableLiveData.observe(getViewLifecycleOwner(), new Observer<MyPaymentResponse>() {
+            @Override
+            public void onChanged(MyPaymentResponse myPaymentResponse) {
+                if (myPaymentResponse.isStatus()) {
+                    putData(myPaymentResponse.getItems());
+                } else {
+                    Toast.makeText(getContext(), "" + myPaymentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void putData(List<MyPayment> items) {
         for (MyPayment payment : items) {
@@ -215,7 +251,7 @@ public class PaymentMethodFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Place Description");
+        textView.setText(R.string.pay_meth);
         cart.setVisibility(View.VISIBLE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.GONE);

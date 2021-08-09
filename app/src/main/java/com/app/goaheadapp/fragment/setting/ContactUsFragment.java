@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentContactUsBinding;
 import com.app.goaheadapp.models.AboutUs;
@@ -46,20 +47,42 @@ public class ContactUsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SettingViewModel.class);
         binding.setMymodel(viewModel);
-        getData();
+        loadData();
         binding.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.sendContact(getContext(), binding.message.getText().toString(), binding.email.getText().toString());
-                viewModel.contactMutableLiveData.observe(getViewLifecycleOwner(), new Observer<DeleteCartResponse>() {
-                    @Override
-                    public void onChanged(DeleteCartResponse deleteCartResponse) {
-                        if (deleteCartResponse.isStatus())
-                            Toast.makeText(getContext(), "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (BaseActivity.isConnected(getContext())) {
+                    viewModel.sendContact(getContext(), binding.message.getText().toString(), binding.email.getText().toString());
+                    viewModel.contactMutableLiveData.observe(getViewLifecycleOwner(), new Observer<DeleteCartResponse>() {
+                        @Override
+                        public void onChanged(DeleteCartResponse deleteCartResponse) {
+                            if (deleteCartResponse.isStatus())
+                                Toast.makeText(getContext(), "" + deleteCartResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getData() {
@@ -81,7 +104,7 @@ public class ContactUsFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Contact Us");
+        textView.setText(R.string.contact);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

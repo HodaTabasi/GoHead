@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.databinding.FragmentProfileBinding;
@@ -31,6 +32,7 @@ public class ProfileFragment extends Fragment {
 
     FragmentProfileBinding binding;
     ProfileViewModel viewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -49,7 +51,7 @@ public class ProfileFragment extends Fragment {
         binding.langSwitch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 1){
+                if (i == 1) {
                     Toast.makeText(getContext(), "ar", Toast.LENGTH_SHORT).show();
                     Locale locale = new Locale("ar");
                     Locale.setDefault(locale);
@@ -57,7 +59,7 @@ public class ProfileFragment extends Fragment {
                     config.locale = locale;
                     getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
                     restartActivity();
-                }else if (i == 2){
+                } else if (i == 2) {
                     Toast.makeText(getContext(), "en", Toast.LENGTH_SHORT).show();
                     Locale locale = new Locale("en");
                     Locale.setDefault(locale);
@@ -74,8 +76,27 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        getData();
+
+        loadData();
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
     }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private void getData() {
         viewModel.getProfile(getActivity());
@@ -115,7 +136,7 @@ public class ProfileFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Profile");
+        textView.setText(R.string.uprofile);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

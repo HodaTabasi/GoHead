@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.adapters.PrivacyAdapter;
 import com.app.goaheadapp.databinding.FragmentPrivacyBinding;
@@ -26,9 +27,9 @@ import com.app.goaheadapp.models.PrivacyResponse;
 public class PrivacyFragment extends Fragment {
 
 
-
     FragmentPrivacyBinding binding;
     private PrivacyViewModel viewModel;
+
     public PrivacyFragment() {
         // Required empty public constructor
     }
@@ -48,8 +49,26 @@ public class PrivacyFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(PrivacyViewModel.class);
         binding.setMymodel(viewModel);
-        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        getData();
+        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        loadData();
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getData() {
@@ -57,9 +76,9 @@ public class PrivacyFragment extends Fragment {
         viewModel.mutableLiveData.observe(getViewLifecycleOwner(), new Observer<PrivacyResponse>() {
             @Override
             public void onChanged(PrivacyResponse privacyResponse) {
-                Log.e("ffffffffffffffffffff","ggggggggg");
-                if (privacyResponse.isStatus()){
-                    PrivacyAdapter adapter = new PrivacyAdapter(getContext(),privacyResponse.getItems());
+                Log.e("ffffffffffffffffffff", "ggggggggg");
+                if (privacyResponse.isStatus()) {
+                    PrivacyAdapter adapter = new PrivacyAdapter(getContext(), privacyResponse.getItems());
                     binding.resc.setAdapter(adapter);
                 }
             }
@@ -74,7 +93,7 @@ public class PrivacyFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Privacy policy");
+        textView.setText(R.string.pp);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

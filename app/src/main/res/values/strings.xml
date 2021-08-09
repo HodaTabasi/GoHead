@@ -145,6 +145,17 @@ Awaiting approval</string>
     <string name="enter_your_name">enter Cardholder\'s name</string>
     <string name="mm">MM</string>
     <string name="year">Year</string>
+    <string name="uprofile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="notification">Notification</string>
+    <string name="pay_meth">Electronic payment gates</string>
+    <string name="about">About Us</string>
+    <string name="contact">Contact Us</string>
+    <string name="pp">Privacy policy</string>
+    <string name="share">Share App</string>
+    <string name="fav">Favorite</string>
+    <string name="my_orders">Orders</string>
+    <string name="reste">Rate</string>
 
     <string-array name="lang">
         <item>Languages</item>

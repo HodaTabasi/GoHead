@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.SplashViewModel;
 import com.app.goaheadapp.databinding.ActivitySavedAddressBinding;
@@ -36,25 +37,47 @@ public class SavedAddress extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SavedAddressViewModel.class);
         activitySavedAddressBinding.setAddress(viewModel);
 
+        loadData();
+
+        activitySavedAddressBinding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(this)) {
+            activitySavedAddressBinding.content.setVisibility(View.VISIBLE);
+            activitySavedAddressBinding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            activitySavedAddressBinding.content.setVisibility(View.GONE);
+            activitySavedAddressBinding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
         viewModel.getAddress(this);
         putData();
     }
+
 
     private void putData() {
         viewModel.postsMutableLiveData.observe(this, new Observer<AddressResponse>() {
             @Override
             public void onChanged(final AddressResponse addressResponse) {
-                ArrayAdapter<Address> adapter = new ArrayAdapter<Address>(SavedAddress.this,R.layout.item_address,R.id.address,addressResponse.getItems());
+                ArrayAdapter<Address> adapter = new ArrayAdapter<Address>(SavedAddress.this, R.layout.item_address, R.id.address, addressResponse.getItems());
                 activitySavedAddressBinding.resc.setAdapter(adapter);
                 activitySavedAddressBinding.resc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Log.e("ssssssssssssss1",addressResponse.getItems().get(i).getAddress()+" ");
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result",addressResponse.getItems().get(i).getAddress());
-                        returnIntent.putExtra("lat",addressResponse.getItems().get(i).getLat());
-                        returnIntent.putExtra("lng",addressResponse.getItems().get(i).getLan());
-                        setResult(Activity.RESULT_OK,returnIntent);
+                        returnIntent.putExtra("result", addressResponse.getItems().get(i).getAddress());
+                        returnIntent.putExtra("lat", addressResponse.getItems().get(i).getLat());
+                        returnIntent.putExtra("lng", addressResponse.getItems().get(i).getLan());
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
                 });

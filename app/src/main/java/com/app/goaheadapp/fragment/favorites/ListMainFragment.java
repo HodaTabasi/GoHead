@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.adapters.FavListAdapter;
 import com.app.goaheadapp.databinding.FragmentListMainBinding;
@@ -53,14 +54,32 @@ public class ListMainFragment extends Fragment {
 
         viewModel = new ViewModelProvider(getActivity()).get(FavoritesViewModel.class);
         binding.setMymodel(viewModel);
-        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         Bundle bundle = getArguments();
-        if (bundle.getBoolean("isnote")){
+        if (bundle.getBoolean("isnote")) {
 
-        }else {
-            getFav();
+        } else {
+            loadData();
         }
 
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getFav();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getFav() {
@@ -69,7 +88,7 @@ public class ListMainFragment extends Fragment {
             @Override
             public void onChanged(FavoriteResponse favoriteResponse) {
                 if (favoriteResponse.isStatus()) {
-                    adapter = new FavListAdapter(getActivity(),favoriteResponse.getItems());
+                    adapter = new FavListAdapter(getActivity(), favoriteResponse.getItems());
                     binding.resc.setAdapter(adapter);
                 }
             }
@@ -84,7 +103,7 @@ public class ListMainFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Favorite");
+        textView.setText(R.string.fav);
         cart.setVisibility(View.VISIBLE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.GONE);

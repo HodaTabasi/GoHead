@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.OrderViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.Utils.Permissions;
@@ -115,15 +116,23 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
         if (!permissions.isCallPhoneOk(getContext()))
             permissions.requestCallPhone(getActivity());
 
-        getData(id);
+        LoadData();
+//        getData(id);
 
         viewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<OrderResponse>() {
             @Override
             public void onChanged(OrderResponse orderResponse) {
                 adapter.addMore(orderResponse.getItems());
-                if (!orderResponse.getItems().isEmpty())
+                if (!orderResponse.getItems().isEmpty()) {
+                    binding.cons.setVisibility(View.VISIBLE);
+                    binding.resc.setVisibility(View.VISIBLE);
                     putData(orderResponse.getItems().get(0));
+                } else {
+                    binding.cons.setVisibility(View.GONE);
+                    binding.resc.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -141,8 +150,9 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                 binding.end.setBackgroundDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.shape_midile_tab_selector));
                 binding.end.setTextColor(Color.BLACK);
                 id = "0";
-                getData(id);
+//                getData(id);
 
+                LoadData();
 
                 binding.itemOrderResent.resents.setVisibility(View.VISIBLE);
                 binding.itemOrderResent.secondPart.setVisibility(View.VISIBLE);
@@ -164,8 +174,8 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                 binding.end.setTextColor(Color.BLACK);
 
                 id = "2";
-                getData(id);
-
+//                getData(id);
+                LoadData();
                 binding.itemOrderResent.resents.setVisibility(View.VISIBLE);
                 binding.itemOrderResent.secondPart.setVisibility(View.GONE);
                 binding.itemOrderOld.olders.setVisibility(View.GONE);
@@ -186,8 +196,8 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                 binding.end.setTextColor(Color.WHITE);
 
                 id = "1";
-                getData(id);
-//
+//                getData(id);
+                LoadData();
                 binding.itemOrderOld.olders.setVisibility(View.VISIBLE);
                 binding.itemOrderResent.resents.setVisibility(View.GONE);
             }
@@ -232,6 +242,23 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                     call(binding.itemOrderResent.driverNumber.getText().toString());
             }
         });
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadData();
+            }
+        });
+    }
+
+    public void LoadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData(id);
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void call(String mobile) {
@@ -303,7 +330,7 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Orders");
+        textView.setText(R.string.my_orders);
         cart.setVisibility(View.VISIBLE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.GONE);

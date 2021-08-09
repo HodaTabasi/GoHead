@@ -1,6 +1,7 @@
 package com.app.goaheadapp.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,6 +117,12 @@ public class MainOneActivity extends AppCompatActivity implements View.OnClickLi
                     FragmentsUtil.replaceFragment(MainOneActivity.this, R.id.my_container, new ShareAppFragment(),true);
                     break;
                 case R.id.rate:
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
 //                    FragmentsUtil.replaceFragment(MainDriverActivity.this, R.id.my_container, new ProfileFragment());
                     break;
                 case R.id.logout:

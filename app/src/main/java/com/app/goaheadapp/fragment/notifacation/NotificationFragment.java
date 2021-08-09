@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.adapters.CartAdapter;
 import com.app.goaheadapp.adapters.NotificationAdapter;
@@ -65,6 +66,28 @@ public class NotificationFragment extends Fragment {
         binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.resc.setAdapter(adapter);
 
+        loadData();
+
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
         viewModel.getNotification(getActivity());
         viewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NotificationResponse>() {
@@ -85,7 +108,7 @@ public class NotificationFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Notification");
+        textView.setText(R.string.notification);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);

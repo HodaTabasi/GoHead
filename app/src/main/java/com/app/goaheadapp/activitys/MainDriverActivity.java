@@ -3,6 +3,7 @@ package com.app.goaheadapp.activitys;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.List;
 
 import io.paperdb.Paper;
+
 public class MainDriverActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ConstraintLayout mContainer;
@@ -106,12 +108,18 @@ public class MainDriverActivity extends AppCompatActivity implements View.OnClic
                     FragmentsUtil.replaceFragment(MainDriverActivity.this, R.id.my_container, new ShareAppFragment());
                     break;
                 case R.id.rate:
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
 //                    FragmentsUtil.replaceFragment(MainDriverActivity.this, R.id.my_container, new ProfileFragment());
                     break;
                 case R.id.logout:
                     User user = Paper.book().read("data");
                     Paper.book().destroy();
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic("user_"+user.getId());
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("user_" + user.getId());
                     Intent logout = new Intent(MainDriverActivity.this, Splash.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -224,7 +232,7 @@ public class MainDriverActivity extends AppCompatActivity implements View.OnClic
                 mMyContainer.setVisibility(View.VISIBLE);
 
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isnote",true);
+                bundle.putBoolean("isnote", true);
                 NoteFragment fragment = new NoteFragment();
                 fragment.setArguments(bundle);
                 FragmentsUtil.replaceFragment(this, R.id.my_container, fragment);

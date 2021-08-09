@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.Utils.AppShareMethods;
 import com.app.goaheadapp.databinding.FragmentShareAppBinding;
@@ -48,7 +49,7 @@ public class ShareAppFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SettingViewModel.class);
         binding.setMymodel(viewModel);
-        getData();
+        loadData();
 
         binding.face.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,25 @@ public class ShareAppFragment extends Fragment {
                 AppShareMethods.copyAppLink(getActivity(), aboutUs.getPlay_store_url());
             }
         });
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
     }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private void getData() {
         viewModel.getAbout(getActivity());
@@ -112,7 +131,7 @@ public class ShareAppFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Share App");
+        textView.setText(R.string.share);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);
