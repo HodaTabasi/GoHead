@@ -143,7 +143,6 @@ public class MainOneActivity extends AppCompatActivity implements View.OnClickLi
         }
     };
 
-
     private void initView() {
         mMore = (ImageView) findViewById(R.id.more);
         mMore.setOnClickListener(this);

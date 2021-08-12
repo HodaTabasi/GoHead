@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.app.goaheadapp.BaseActivity;
@@ -37,6 +40,7 @@ import com.app.goaheadapp.R;
 import com.app.goaheadapp.Utils.Permissions;
 import com.app.goaheadapp.adapters.OrderTrakingStoreAdapter;
 import com.app.goaheadapp.databinding.FragmentOrderTrackingBinding;
+import com.app.goaheadapp.dialog.ProductDetails;
 import com.app.goaheadapp.interfaces.GetOrderDetails;
 import com.app.goaheadapp.models.Order;
 import com.app.goaheadapp.models.OrderResponse;
@@ -55,6 +59,8 @@ import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.model.DirectionsResult;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -361,23 +367,23 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
             map.setMyLocationEnabled(true); //to get blue marker with GPS icon
             map.getUiSettings().setMyLocationButtonEnabled(false); //to hide GPS icon
 
-            // Assem
-            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    if (marker != null) { //if marker exists (not null or whatever)
-                        marker.setPosition(latLng);
-                        calculateDirections(marker);
-                    } else {
-                        marker = map.addMarker(new MarkerOptions()
-                                .position(latLng)
-                                .title("place")
-                                .draggable(true));
-
-                        mUserPosition = latLng;
-                    }
-                }
-            });
+//            // Assem
+//            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//                @Override
+//                public void onMapClick(LatLng latLng) {
+//                    if (marker != null) { //if marker exists (not null or whatever)
+//                        marker.setPosition(latLng);
+//                        calculateDirections(marker);
+//                    } else {
+//                        marker = map.addMarker(new MarkerOptions()
+//                                .position(latLng)
+//                                .title("place")
+//                                .draggable(true));
+//
+//                        mUserPosition = latLng;
+//                    }
+//                }
+//            });
         }
     }
 
@@ -471,6 +477,20 @@ public class OrderTrackingFragment extends Fragment implements OnMapReadyCallbac
                     .position(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())))
                     .title("تفاصيل الطلب")
                     .draggable(true));
+
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+
+                    ProductDetails customDialog = new ProductDetails(getContext(), R.style.mydialog, order);
+                    customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    customDialog.show();
+                    Window window = customDialog.getWindow();
+                    window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    return false;
+                }
+            });
 
             moveCamera(new LatLng(Double.parseDouble(order.getLat()), Double.parseDouble(order.getLan())), 5);
         }
