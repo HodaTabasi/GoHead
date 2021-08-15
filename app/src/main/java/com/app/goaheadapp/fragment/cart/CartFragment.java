@@ -68,6 +68,7 @@ public class CartFragment extends Fragment {
         loadData();
 
         binding.reload.setOnClickListener(v -> {
+
             loadData();
         });
     }
