@@ -14,154 +14,169 @@
             type="com.app.goaheadapp.models.User" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        tools:context=".fragment.choosesdriver.ChooseDriverFragment">
-
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
+            android:id="@+id/reload"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_autorenew_24"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_pagebackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="606dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
-
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="390dp"
-                android:layout_marginBottom="16dp" />
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            tools:context=".fragment.choosesdriver.ChooseDriverFragment">
 
 
-            <!--            <include-->
-            <!--                android:id="@+id/item_driver_profile"-->
-            <!--                layout="@layout/item_driver_profile" />-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/profile"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow_gray"
-                android:padding="16dp">
+                android:src="@drawable/ic_pagebackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="606dp"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="390dp"
+                    android:layout_marginBottom="16dp" />
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/driver_image"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    app:imageUrl="@{user.profile_image}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                <!--            <include-->
+                <!--                android:id="@+id/item_driver_profile"-->
+                <!--                layout="@layout/item_driver_profile" />-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/driver_name"
-                    android:layout_width="171dp"
-                    android:layout_height="21dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@{user.name}"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/driver_image"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/profile"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:numStars="5"
-                    android:rating="@{Float.valueOf(user.rate)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/driver_image"
-                    app:layout_constraintTop_toBottomOf="@+id/driver_name"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/driver_phone"
-                    android:layout_width="157dp"
-                    android:layout_height="29dp"
-                    android:layout_margin="6dp"
-                    android:drawableStart="@drawable/ic_phone"
-                    android:drawableLeft="@drawable/ic_phone"
-                    android:drawablePadding="8dp"
-                    android:text="@{user.mobile}"
-                    android:textColor="@color/divider"
-                    android:textSize="12sp"
-                    app:drawableTint="@color/colorAccent"
-                    app:layout_constraintStart_toEndOf="@+id/driver_image"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/request"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/btn_shap1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/request"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/send_note"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/btn_shap2"
-                    android:gravity="center"
-                    android:onClick="@{()->Transfer.toDriverNote(user)}"
-                    android:padding="8dp"
-                    android:text="@string/send_note"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/request" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:background="@drawable/shadow_gray"
+                    android:padding="16dp">
 
 
-        </LinearLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/driver_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        app:imageUrl="@{user.profile_image}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/driver_name"
+                        android:layout_width="171dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{user.name}"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/driver_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:numStars="5"
+                        android:rating="@{Float.valueOf(user.rate)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/driver_image"
+                        app:layout_constraintTop_toBottomOf="@+id/driver_name"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/driver_phone"
+                        android:layout_width="157dp"
+                        android:layout_height="29dp"
+                        android:layout_margin="6dp"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawablePadding="8dp"
+                        android:text="@{user.mobile}"
+                        android:textColor="@color/divider"
+                        android:textSize="12sp"
+                        app:drawableTint="@color/colorAccent"
+                        app:layout_constraintStart_toEndOf="@+id/driver_image"
+                        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/request"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/btn_shap1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/request"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/send_note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/btn_shap2"
+                        android:gravity="center"
+                        android:onClick="@{()->Transfer.toDriverNote(user)}"
+                        android:padding="8dp"
+                        android:text="@string/send_note"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/request" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+            </LinearLayout>
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

@@ -107,7 +107,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
         sum = 0;
         for (Cart cart : carts) {
             sum += (cart.getPrice() * cart.getQuantity());
-            Log.e("dffb", sum + "");
         }
         totalInterface.onPriceChange(sum);
     }
@@ -131,7 +130,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
 
                     @Override
                     public void onFailure(Call<DeleteCartResponse> call, Throwable t) {
-
+                        Log.e("ffffffffffffff", t.getMessage());
+                        MyProgressDialog.dismissDialog();
                     }
                 });
     }
@@ -155,7 +155,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
 
                     @Override
                     public void onFailure(Call<IncteaseCuntResponse> call, Throwable t) {
-
+                        Log.e("ffffffffffffff", t.getMessage());
+                        MyProgressDialog.dismissDialog();
                     }
                 });
     }
@@ -179,7 +180,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
 
                     @Override
                     public void onFailure(Call<IncteaseCuntResponse> call, Throwable t) {
-
+                        Log.e("ffffffffffffff", t.getMessage());
+                        MyProgressDialog.dismissDialog();
                     }
                 });
     }
@@ -197,7 +199,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
             binding.executePendingBindings();
             binding.add.setVisibility(View.INVISIBLE);
 
-            binding.quantity.setText(carts.get(getAdapterPosition()).getQuantity()+"");
+            binding.quantity.setText(carts.get(getAdapterPosition()).getQuantity() + "");
             if (item.getIs_favourite() == 1) {
                 binding.fav.setChecked(true);
             }

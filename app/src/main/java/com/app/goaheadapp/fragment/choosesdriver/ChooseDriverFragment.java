@@ -31,6 +31,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.OrderViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.Utils.MyProgressDialog;
@@ -135,6 +136,9 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
 
             }
         });
+        binding.reload.setOnClickListener(v -> {
+            loadData();
+        });
     }
 
     public void doneDialog() {
@@ -200,7 +204,7 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Choose Driver");
+        textView.setText(R.string.ch_driver);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         back.setVisibility(View.VISIBLE);
@@ -246,6 +250,21 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
         map.setOnMarkerClickListener(this);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        loadData();
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
         viewModel.getDrivers(getContext());
         viewModel.postsMutableLiveData.removeObservers(getViewLifecycleOwner());
         viewModel.postsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<DrivierResponse>() {
@@ -258,6 +277,6 @@ public class ChooseDriverFragment extends Fragment implements GoogleMap.OnMarker
                 }
             }
         });
-
     }
+
 }

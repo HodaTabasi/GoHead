@@ -30,6 +30,7 @@ import com.app.goaheadapp.models.StoreResponse;
 import com.app.goaheadapp.models.SubCatResponse;
 import com.app.goaheadapp.models.UpdateImageResponse;
 import com.app.goaheadapp.models.User;
+import com.app.goaheadapp.models.copunResponse;
 import com.app.goaheadapp.models.getPaymentRresponse;
 
 import java.util.HashMap;
@@ -267,6 +268,10 @@ public class NetworkUtils {
 
     public Call<AddSuccessfullyResponse> approvOrReject(String token, String lang, String orderId, String type) {
         return apiInterface.approvOrReject(token, lang, orderId, type);
+    }
+
+    public Call<copunResponse> getCapon(String token, String lang, String code, String total_price) {
+        return apiInterface.getCapon(token, lang, code, total_price);
     }
 
 //    public Call<GetResponse> getProduct(String token){

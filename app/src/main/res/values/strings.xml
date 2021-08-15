@@ -156,6 +156,8 @@ Awaiting approval</string>
     <string name="fav">Favorite</string>
     <string name="my_orders">Orders</string>
     <string name="reste">Rate</string>
+    <string name="cart">Cart</string>
+    <string name="ch_driver">Choose Driver</string>
 
     <string-array name="lang">
         <item>Languages</item>

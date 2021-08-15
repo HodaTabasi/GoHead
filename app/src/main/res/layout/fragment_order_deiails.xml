@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mymodel"
             type="com.app.goaheadapp.fragment.deliverydetails.OrderDetailsViewModel" />
@@ -18,307 +19,321 @@
             type="com.app.goaheadapp.SplashViewModel" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        tools:context=".fragment.deliverydetails.OrderDeiailsFragment">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/reload"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_autorenew_24"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pagebackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            tools:context=".fragment.deliverydetails.OrderDeiailsFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/total_price"
-                        android:textAlignment="textStart"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_shopping_cart"
-                        android:tint="@android:color/black" />
-                </LinearLayout>
+                    android:src="@drawable/ic_pagebackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shadow"
-                    android:gravity="center">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/total_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="12dp"
-                        android:drawableStart="@drawable/ic_shopping_cart"
-                        android:drawableLeft="@drawable/ic_shopping_cart"
-                        android:gravity="center"
-                        android:text="300 S.R"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:drawableTint="@color/colorAccent" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/contact_data"
-                        android:textAlignment="textStart"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/edit_user_data"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:padding="8dp"
-                        android:onClick="@{()-> myordermodel.editUser(name.getText().toString,phone.getText().toString())}"
-                        android:src="@drawable/ic_baseline_edit_24"
-                        android:tint="@android:color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shadow"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="8dp"
-                        android:drawableStart="@drawable/ic_person"
-                        android:drawableLeft="@drawable/ic_person"
-                        android:drawablePadding="8dp"
-                        android:gravity="center"
-                        android:text="Ahmed abed"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:drawableTint="@color/colorAccent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="12dp"
-                        android:drawableStart="@drawable/ic_phone"
-                        android:drawableLeft="@drawable/ic_phone"
-                        android:drawablePadding="8dp"
-                        android:gravity="center"
-                        android:text="0597046766"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:drawableTint="@color/colorAccent" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="@string/address_data"
-                        android:textAlignment="textStart"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/edit_address"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:padding="8dp"
-                        android:onClick="@{()->MyViewModel.changeLocation(2)}"
-                        android:src="@drawable/ic_baseline_edit_24"
-                        android:tint="@android:color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shadow"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/address_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="12dp"
-                        android:drawableStart="@drawable/ic_my_location"
-                        android:drawableLeft="@drawable/ic_my_location"
-                        android:drawablePadding="8dp"
-                        android:gravity="center"
-                        android:text="mafina sfvfbdvbgdvf ddfdbbd"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:drawableTint="@color/colorAccent" />
-
-                </LinearLayout>
-
-                <!--           now add payment method -->
-
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:gravity="center"
-                    android:text="@string/payment_way_selected"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center"
-                    android:layoutDirection="ltr"
-                    android:orientation="horizontal"
-                    android:weightSum="4">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/total_price"
+                            android:textAlignment="textStart"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_shopping_cart"
+                            android:tint="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shadow"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:drawableStart="@drawable/ic_shopping_cart"
+                            android:drawableLeft="@drawable/ic_shopping_cart"
+                            android:gravity="center"
+                            android:text="300 S.R"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:drawableTint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/contact_data"
+                            android:textAlignment="textStart"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/edit_user_data"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:onClick="@{()-> myordermodel.editUser(name.getText().toString,phone.getText().toString())}"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_baseline_edit_24"
+                            android:tint="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shadow"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="8dp"
+                            android:drawableStart="@drawable/ic_person"
+                            android:drawableLeft="@drawable/ic_person"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="Ahmed abed"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:drawableTint="@color/colorAccent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="12dp"
+                            android:drawableStart="@drawable/ic_phone"
+                            android:drawableLeft="@drawable/ic_phone"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="0597046766"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:drawableTint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/address_data"
+                            android:textAlignment="textStart"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/edit_address"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:onClick="@{()->MyViewModel.changeLocation(2)}"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_baseline_edit_24"
+                            android:tint="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shadow"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/address_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:drawableStart="@drawable/ic_my_location"
+                            android:drawableLeft="@drawable/ic_my_location"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="mafina sfvfbdvbgdvf ddfdbbd"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:drawableTint="@color/colorAccent" />
+
+                    </LinearLayout>
+
+                    <!--           now add payment method -->
+
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/two"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/c_blue_shape_deffult"
+                        android:layout_margin="16dp"
                         android:gravity="center"
-                        android:text="2"
+                        android:text="@string/payment_way_selected"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:background="@color/colorPrimary" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/one"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/c_blue_shape"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:gravity="center"
-                        android:text="1"
-                        android:textColor="@android:color/white"
-                        android:textSize="15sp" />
+                        android:layoutDirection="ltr"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/two"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/c_blue_shape_deffult"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:background="@color/colorPrimary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/one"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/c_blue_shape"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ViewStub
+                            android:id="@+id/layout_stub"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:layout="@layout/stub_radio_options" />
+
+                        <ViewStub
+                            android:id="@+id/layout_stub2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:layout="@layout/stub_payment_sure" />
+
+                        <ViewStub
+                            android:id="@+id/layout_stub3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:layout="@layout/stub_card_payment_options" />
+
+                    </FrameLayout>
+
+
                 </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ViewStub
-                        android:id="@+id/layout_stub"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="16dp"
-                        android:layout="@layout/stub_radio_options"/>
-
-                    <ViewStub
-                        android:id="@+id/layout_stub2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="16dp"
-                        android:layout="@layout/stub_payment_sure"/>
-
-                    <ViewStub
-                        android:id="@+id/layout_stub3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="16dp"
-                        android:layout="@layout/stub_card_payment_options"/>
-
-                </FrameLayout>
-
 
 
             </LinearLayout>
 
-
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </FrameLayout>
 </layout>
 

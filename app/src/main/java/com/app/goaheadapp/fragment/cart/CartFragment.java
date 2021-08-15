@@ -16,11 +16,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.HomeViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.interfaces.TotalInterface;
@@ -63,6 +65,25 @@ public class CartFragment extends Fragment {
         binding.setMymodel(viewModel);
         binding.resc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
+        loadData();
+
+        binding.reload.setOnClickListener(v -> {
+            loadData();
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getData() {
         viewModel.getCart(getContext());
         viewModel.mutableLiveData.observe(getViewLifecycleOwner(), new Observer<CartResponse>() {
             @Override
@@ -81,6 +102,7 @@ public class CartFragment extends Fragment {
         @Override
         public void onPriceChange(int Value) {
             binding.shopping.setText(Value + "");
+            binding.price.setText(Value + "");
         }
     };
 
@@ -98,7 +120,7 @@ public class CartFragment extends Fragment {
         AppCompatImageView clear = view.findViewById(R.id.clear);
         AppCompatImageView cart = view.findViewById(R.id.cart);
         AppCompatImageView back = view.findViewById(R.id.back);
-        textView.setText("Cart");
+        textView.setText(R.string.cart);
         cart.setVisibility(View.GONE);
         clear.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);

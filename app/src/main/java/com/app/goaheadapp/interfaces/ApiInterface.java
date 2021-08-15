@@ -27,6 +27,7 @@ import com.app.goaheadapp.models.SliderResponse;
 import com.app.goaheadapp.models.StoreResponse;
 import com.app.goaheadapp.models.SubCatResponse;
 import com.app.goaheadapp.models.UpdateImageResponse;
+import com.app.goaheadapp.models.copunResponse;
 import com.app.goaheadapp.models.getPaymentRresponse;
 
 import java.util.HashMap;
@@ -352,6 +353,13 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("checkOutProduct")
     public Call<AddSuccessfullyResponse> checkOutProduct(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage,@Field("order_id") String order_id,@Field("type") String type);
+
+    @Headers({
+            "Accept: application/json"
+    })
+    @FormUrlEncoded
+    @POST("getCapon")
+    public Call<copunResponse> getCapon(@Header("Authorization") String Authorization, @Header("Accept-Language") String AcceptLanguage, @Field("code") String code, @Field("total_price") String total_price);
 
 
 //    @FormUrlEncoded

@@ -25,6 +25,7 @@ import android.view.ViewStub;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.OrderViewModel;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.SplashViewModel;
@@ -81,8 +82,12 @@ public class OrderDeiailsFragment extends Fragment implements GetUserData {
 
         binding.name.setText(user.getName());
         binding.phone.setText(user.getMobile());
-        getPaymentMethod();
+        loadData();
         optionsBinding = binding.layoutStub.getViewStub().inflate();
+
+        binding.reload.setOnClickListener(v -> {
+            loadData();
+        });
 
 //        RadioGroup radioGroup = optionsBinding.findViewById(R.id.payment);
 
@@ -127,6 +132,17 @@ public class OrderDeiailsFragment extends Fragment implements GetUserData {
         });
 
 
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            getPaymentMethod();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getPaymentMethod() {

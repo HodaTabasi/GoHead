@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -18,11 +20,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.app.goaheadapp.BaseActivity;
 import com.app.goaheadapp.R;
 import com.app.goaheadapp.interfaces.TotalInterface;
 import com.app.goaheadapp.adapters.DeliveryFeeAdapter;
 import com.app.goaheadapp.databinding.DialogDeliveryFeeBinding;
 import com.app.goaheadapp.models.DeliveryCostResponse;
+import com.app.goaheadapp.models.copunResponse;
 
 public class DeliveryFeeCost extends Dialog implements View.OnClickListener {
     String string;
@@ -47,18 +51,29 @@ public class DeliveryFeeCost extends Dialog implements View.OnClickListener {
         binding.cost.setText(string);
         binding.cancel.setOnClickListener(this);
         binding.ok.setOnClickListener(this);
-        binding.recs.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
-        putData();
+        binding.copun.setOnClickListener(this);
+        binding.recs.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+        loadData();
+        binding.reload.setOnClickListener(v -> {
+            loadData();
+        });
+    }
+
+    private void loadData() {
+        if (BaseActivity.isConnected(getContext())) {
+            binding.content.setVisibility(View.VISIBLE);
+            binding.reload.setVisibility(View.GONE);
+            putData();
+        } else {
+            binding.content.setVisibility(View.GONE);
+            binding.reload.setVisibility(View.VISIBLE);
+        }
     }
 
     private void putData() {
         viewModel.getDeliveryCost(context);
-        viewModel.mutableLiveData.observe((LifecycleOwner) context, new Observer<DeliveryCostResponse>() {
-            @Override
-            public void onChanged(DeliveryCostResponse deliveryCostResponse) {
-                binding.recs.setAdapter(new DeliveryFeeAdapter(context,deliveryCostResponse.getItems(),totalInterface));
-            }
-        });
+        viewModel.mutableLiveData.observe((LifecycleOwner) context, deliveryCostResponse -> binding.recs.setAdapter(new DeliveryFeeAdapter(context, deliveryCostResponse.getItems(), totalInterface)));
     }
 
 
@@ -70,9 +85,27 @@ public class DeliveryFeeCost extends Dialog implements View.OnClickListener {
                 break;
             case R.id.ok:
                 Bundle bundle = new Bundle();
-                bundle.putString("cost",binding.cost.getText().toString());
+                bundle.putString("cost", string);
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
-                navController.navigate(R.id.orderDeiailsFragment,bundle);
+                navController.navigate(R.id.orderDeiailsFragment, bundle);
+                break;
+            case R.id.copun:
+                if (BaseActivity.isConnected(getContext())) {
+                    if (!TextUtils.isEmpty(binding.code.getText())) {
+                        viewModel.getDeliveryCopun(getContext(), binding.code.getText().toString(), binding.cost.getText().toString());
+                        viewModel.capunMutableLiveData.observe((LifecycleOwner) context, copunResponse -> {
+                            if (copunResponse.isStatus()) {
+                                binding.cost.setText(copunResponse.getItems());
+                                string = copunResponse.getItems();
+                            } else {
+                                Toast.makeText(context, "" + copunResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             default:
                 break;
@@ -84,8 +117,9 @@ public class DeliveryFeeCost extends Dialog implements View.OnClickListener {
         @Override
         public void onPriceChange(int Value) {
             int sum = Integer.parseInt(string);
-            sum+=Value;
-            binding.cost.setText(sum+" ");
+            sum += Value;
+            string = String.valueOf(sum);
+            binding.cost.setText(sum + " ");
         }
     };
 }
